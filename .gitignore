@@ -3,4 +3,5 @@
 target
 .DS_Store
 where-to-live/.idea
+where-to-live/.gradle
 where-to-live/where-to-live/build
