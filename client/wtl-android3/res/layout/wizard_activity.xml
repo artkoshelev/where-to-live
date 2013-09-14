@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/profileButton"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/ic_launcher" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Расширенный поиск"
+        android:id="@+id/parametrsButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="onParametersClick" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Поиск по профилю"
+        android:id="@+id/profileButton"
+        android:layout_above="@+id/parametrsButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="11dp"
+        android:onClick="onProfileClick" />
+</RelativeLayout>
