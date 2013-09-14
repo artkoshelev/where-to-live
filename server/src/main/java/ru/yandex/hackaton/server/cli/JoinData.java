@@ -5,7 +5,6 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import com.codahale.dropwizard.Application;
-import com.codahale.dropwizard.cli.EnvironmentCommand;
 import com.codahale.dropwizard.setup.Environment;
 import net.sourceforge.argparse4j.inf.Namespace;
 import org.apache.commons.lang3.Validate;
@@ -38,7 +37,7 @@ import ru.yandex.hackaton.server.geocoder.gridhash.GridHash;
 /**
  * @author Sergey Polovko
  */
-public class JoinData extends EnvironmentCommand<WtlConfiguration> {
+public class JoinData extends AbstractDbCommand {
 
     private static final Logger logger = LoggerFactory.getLogger(JoinData.class);
 
@@ -94,9 +93,6 @@ public class JoinData extends EnvironmentCommand<WtlConfiguration> {
         joinToDistrictsFrom(preSchoolsDao);
         joinToDistrictsFrom(fountainDao);
         joinToDistrictsFrom(wiFiDao);
-
-        // wait outputting last logged message
-        Thread.sleep(3000);
     }
 
     private void loadDistrictsGridHash() {
@@ -105,13 +101,17 @@ public class JoinData extends EnvironmentCommand<WtlConfiguration> {
         }
     }
 
-    private <T extends CategoryInfo> void joinToDistrictsFrom(CrudDao<T> dao) {
-        for (T categoryInfo : dao.findAll()) {
-            GeoInfo geoInfo = geocoder.geocode(categoryInfo.getAddress());
-            Set<District> districts = districtsGeoHash.getNearby(geoInfo.getPoint());
-            Validate.isTrue(districts.size() == 1, "there too many districts for point " + geoInfo);
-            categoryInfo.setDistrictId(districts.iterator().next().getId());
-            dao.save(categoryInfo);
-        }
+    private <T extends CategoryInfo> void joinToDistrictsFrom(final CrudDao<T> dao) {
+        doInSession(new Block() {
+            public void apply() {
+                for (T categoryInfo : dao.findAll()) {
+                    GeoInfo geoInfo = geocoder.geocode(categoryInfo.getAddress());
+                    Set<District> districts = districtsGeoHash.getNearby(geoInfo.getPoint());
+                    Validate.isTrue(districts.size() == 1, "there too many districts for point " + geoInfo);
+                    categoryInfo.setDistrictId(districts.iterator().next().getId());
+                    dao.save(categoryInfo);
+                }
+            }
+        });
     }
 }
