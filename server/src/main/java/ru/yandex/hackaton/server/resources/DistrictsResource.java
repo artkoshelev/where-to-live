@@ -3,13 +3,43 @@ package ru.yandex.hackaton.server.resources;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.codahale.dropwizard.hibernate.UnitOfWork;
 
-import ru.yandex.hackaton.server.db.dao.*;
-import ru.yandex.hackaton.server.db.model.*;
+import ru.yandex.hackaton.server.db.dao.ChildPolyclinicDao;
+import ru.yandex.hackaton.server.db.dao.ChildTeethPolyclinicDao;
+import ru.yandex.hackaton.server.db.dao.CityPolyclinicDao;
+import ru.yandex.hackaton.server.db.dao.DispensaryDao;
+import ru.yandex.hackaton.server.db.dao.DistrictsDao;
+import ru.yandex.hackaton.server.db.dao.DistrictsSummaryDao;
+import ru.yandex.hackaton.server.db.dao.DrugsDao;
+import ru.yandex.hackaton.server.db.dao.ElementariesDao;
+import ru.yandex.hackaton.server.db.dao.FountainDao;
+import ru.yandex.hackaton.server.db.dao.HospitalsDao;
+import ru.yandex.hackaton.server.db.dao.NightSchoolsDao;
+import ru.yandex.hackaton.server.db.dao.ParksDao;
+import ru.yandex.hackaton.server.db.dao.PreSchoolsDao;
+import ru.yandex.hackaton.server.db.dao.WiFiDao;
+import ru.yandex.hackaton.server.db.model.ChildPolyclinic;
+import ru.yandex.hackaton.server.db.model.ChildTeethPolyclinic;
+import ru.yandex.hackaton.server.db.model.CityPolyclinic;
+import ru.yandex.hackaton.server.db.model.Dispensary;
+import ru.yandex.hackaton.server.db.model.District;
+import ru.yandex.hackaton.server.db.model.DistrictsSummary;
+import ru.yandex.hackaton.server.db.model.Drugs;
+import ru.yandex.hackaton.server.db.model.Elementary;
+import ru.yandex.hackaton.server.db.model.Fountain;
+import ru.yandex.hackaton.server.db.model.Hospital;
+import ru.yandex.hackaton.server.db.model.NightSchool;
+import ru.yandex.hackaton.server.db.model.Parks;
+import ru.yandex.hackaton.server.db.model.PreSchool;
+import ru.yandex.hackaton.server.db.model.WiFi;
 
 /**
  * @author Sergey Polovko
@@ -72,7 +102,7 @@ public class DistrictsResource {
     @GET
     @UnitOfWork
     @Path("hospitals")
-    public List<Hospitals> getHospitals() {
+    public List<Hospital> getHospitals() {
         return hospitalsDao.findAll();
     }
 

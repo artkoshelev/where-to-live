@@ -1,11 +1,11 @@
 package ru.yandex.hackaton.server.db.dao;
 
-import org.hibernate.SessionFactory;
-import ru.yandex.hackaton.server.db.model.Hospitals;
-import ru.yandex.hackaton.server.db.model.Parks;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import org.hibernate.SessionFactory;
+
+import ru.yandex.hackaton.server.db.model.Parks;
 
 /**
  * @author Sergey Polovko
