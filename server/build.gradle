@@ -1,23 +1,38 @@
+group = "ru.yandex.hackaton"
+version = "0.0.1"
+description = "Where To Live"
+
 apply from: "libs.gradle"
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'application'
 
-allprojects {
-    apply plugin: 'idea'
+compileJava.options.encoding = "UTF-8"
 
-    group = "ru.yandex.hackaton"
-    version = "0.0.1"
-    description = "Where To Live"
+repositories {
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+    mavenCentral()
 }
 
-subprojects {
-    apply from: "${rootDir}/libs.gradle"
+dependencies {
+    compile libraries.dropwizard_core
+    compile libraries.dropwizard_auth
+    compile libraries.dropwizard_guice
+    compile libraries.dropwizard_hibernate
+    compile libraries.dropwizard_testing
+    compile libraries.commons_lang
+    compile libraries.httpcomponents
+    compile libraries.jsoup
 
+    runtime libraries.postgres
+}
 
-    repositories {
-        maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots"
-        }
-        mavenCentral()
-    }
+// The main class of the application
+mainClassName = 'ru.yandex.hackaton.server.WtlApplication'
+run {
+    args 'server', '../etc/wtl-server.dev.yaml'
 }
 
 defaultTasks "clean", "build"
