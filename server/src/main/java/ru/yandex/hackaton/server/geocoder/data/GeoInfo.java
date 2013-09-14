@@ -1,22 +1,20 @@
-package ru.yandex.hackaton.server.geocoder;
+package ru.yandex.hackaton.server.geocoder.data;
 
-import ru.yandex.hackaton.server.db.model.Point;
+import ru.yandex.hackaton.server.geocoder.geo.Point;
 
 /**
  * @author Sergey Polovko
  */
 public class GeoInfo {
 
-    private static final GeoInfo EMPTY = new GeoInfo("", "", new Point(0, 0));
+    private static final GeoInfo EMPTY = new GeoInfo("", new Point(0, 0));
 
     private final String address;
-    private final String districtName;
     private final Point point;
 
 
-    public GeoInfo(String address, String districtName, Point point) {
+    public GeoInfo(String address, Point point) {
         this.address = address;
-        this.districtName = districtName;
         this.point = point;
     }
 
@@ -28,10 +26,6 @@ public class GeoInfo {
         return address;
     }
 
-    public String getDistrictName() {
-        return districtName;
-    }
-
     public Point getPoint() {
         return point;
     }
@@ -40,7 +34,6 @@ public class GeoInfo {
     public String toString() {
         return "GeoInfo{" +
                 "address='" + address + '\'' +
-                ", districtName='" + districtName + '\'' +
                 ", point=" + point +
                 '}';
     }

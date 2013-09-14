@@ -9,6 +9,7 @@ import com.google.inject.Injector;
 import com.hubspot.dropwizard.guice.GuiceBundle;
 
 import ru.yandex.hackaton.server.cli.JoinData;
+import ru.yandex.hackaton.server.cli.LoadDistrictsCoordinates;
 import ru.yandex.hackaton.server.db.DbBundle;
 import ru.yandex.hackaton.server.db.DbModule;
 
@@ -41,6 +42,7 @@ public class WtlApplication extends Application<WtlConfiguration> {
                 .build();
         bootstrap.addBundle(guiceBundle);
         bootstrap.addCommand(new JoinData(this));
+        bootstrap.addCommand(new LoadDistrictsCoordinates(this));
 
         commands = bootstrap.getCommands();
         injector = guiceBundle.getInjector();
