@@ -1,8 +1,3 @@
-client/wtl-android/.idea
-client/wtl-android/wtl-android/build
-client/wtl-android/.gradle
-client/wtl-android3/.idea
-client/wtl-android3/out
-client/yandexmapkit-library/bin
-client/wtl-android3/gen
-client/yandexmapkit-library/gen
+.idea
+build
+.gradle
