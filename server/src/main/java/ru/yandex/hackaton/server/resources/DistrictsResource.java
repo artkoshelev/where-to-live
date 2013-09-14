@@ -85,6 +85,8 @@ public class DistrictsResource {
     private ShopsDao shopsDao;
     @Inject
     private DistrictsSummaryDao districtsSummaryDao;
+    @Inject
+    private PiknikDao piknikDao;
 
     @GET
     @UnitOfWork
@@ -195,5 +197,12 @@ public class DistrictsResource {
     @Path("fountains")
     public List<Fountain> getFountains() {
         return fountainDao.findAll();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("piknik")
+    public List<Piknik> getPiknik() {
+        return piknikDao.findAll();
     }
 }
