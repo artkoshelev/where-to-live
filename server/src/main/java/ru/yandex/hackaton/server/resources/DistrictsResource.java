@@ -3,16 +3,15 @@ package ru.yandex.hackaton.server.resources;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 import com.codahale.dropwizard.hibernate.UnitOfWork;
 
 import ru.yandex.hackaton.server.db.dao.DistrictsDao;
+import ru.yandex.hackaton.server.db.dao.HospitalsDao;
 import ru.yandex.hackaton.server.db.model.District;
+import ru.yandex.hackaton.server.db.model.Hospitals;
 
 /**
  * @author Sergey Polovko
@@ -25,9 +24,19 @@ public class DistrictsResource {
     @Inject
     private DistrictsDao districtsDao;
 
+    @Inject
+    private HospitalsDao hospitalsDao;
+
     @GET
     @UnitOfWork
     public List<District> getOperations() {
         return districtsDao.findAll();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("hospitals")
+    public List<Hospitals> getHospitals() {
+        return hospitalsDao.findAll();
     }
 }
