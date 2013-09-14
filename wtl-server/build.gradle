@@ -1,0 +1,48 @@
+apply from: "libs.gradle"
+
+allprojects {
+    apply plugin: 'idea'
+}
+
+version = "0.0.1"
+
+apply plugin: "java"
+apply plugin: 'application'
+
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+repositories {
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+    mavenCentral()
+}
+
+dependencies {
+    compile libraries.dropwizard_core
+    compile libraries.dropwizard_auth
+    compile libraries.dropwizard_guice
+    compile libraries.dropwizard_hibernate
+    compile libraries.dropwizard_testing
+    compile libraries.commons_lang
+    compile libraries.joda_money
+    compile libraries.jbcrypt
+
+    testCompile libraries.hsqldb
+
+    runtime libraries.postgres
+}
+
+// The main class of the application
+mainClassName = 'ru.yandex.hackaton.server.WtlApplication'
+run {
+    args 'server', '../etc/wtl-server.dev.yaml'
+}
+
+//noinspection GrUnresolvedAccess
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.7'
+}

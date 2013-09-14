@@ -1,0 +1,36 @@
+server:
+    applicationConnectors:
+        - type: http
+          port: 3001
+          bindHost: 0.0.0.0
+    adminConnectors:
+        - type: http
+          port: 3002
+          bindHost: 0.0.0.0
+
+# Logging settings.
+logging:
+
+    # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+    level: INFO
+
+    # Logger-specific levels.
+    loggers:
+        ru.yandex: DEBUG
+
+    appenders:
+        - type: console
+
+database:
+    driverClass: org.postgresql.Driver
+    url: jdbc:postgresql://5.9.142.76/wtl-db
+
+    user: wrl
+    password: wtl123
+
+    # any properties specific to your JDBC driver:
+    properties:
+        charSet: UTF-8
+        hibernate.dialect: org.hibernate.dialect.PostgreSQL82Dialect
+        hibernate.show_sql: true
+        hibernate.format_sql: true
