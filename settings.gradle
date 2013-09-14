@@ -1,0 +1,4 @@
+include ':wtl-android'
+include ':wtl-server'
+
+rootProject.name = 'wtl'

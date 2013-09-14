@@ -1,0 +1,28 @@
+apply from: "libs.gradle"
+
+allprojects {
+    apply plugin: 'idea'
+    apply plugin: 'java'
+}
+
+version = "0.0.1"
+
+apply plugin: "java"
+apply plugin: 'application'
+
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+repositories {
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+    mavenCentral()
+}
+
+//noinspection GrUnresolvedAccess
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.7'
+}
