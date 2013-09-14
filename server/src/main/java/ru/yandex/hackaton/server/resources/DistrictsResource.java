@@ -33,6 +33,8 @@ public class DistrictsResource {
     private DispensaryDao dispensaryDao;
     @Inject
     private DrugsDao drugsDao;
+    @Inject
+    private ParksDao parksDao;
 
     @GET
     @UnitOfWork
@@ -66,6 +68,13 @@ public class DistrictsResource {
     @Path("city_polyclinic")
     public List<CityPolyclinic> getCityPolyclinic() {
         return cityPolyclinicDao.findAll();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("parks")
+    public List<Parks> getParks() {
+        return parksDao.findAll();
     }
 
     @GET
