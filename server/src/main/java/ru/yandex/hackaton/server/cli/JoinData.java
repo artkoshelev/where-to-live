@@ -11,8 +11,11 @@ import org.slf4j.LoggerFactory;
 
 import ru.yandex.hackaton.server.WtlConfiguration;
 import ru.yandex.hackaton.server.db.dao.DistrictsDao;
-import ru.yandex.hackaton.server.geocoder.GeoInfo;
+import ru.yandex.hackaton.server.db.model.District;
 import ru.yandex.hackaton.server.geocoder.YandexGeocoder;
+import ru.yandex.hackaton.server.geocoder.data.GeoInfo;
+import ru.yandex.hackaton.server.geocoder.geo.Point;
+import ru.yandex.hackaton.server.geocoder.gridhash.GridHash;
 
 /**
  * @author Sergey Polovko
@@ -20,6 +23,8 @@ import ru.yandex.hackaton.server.geocoder.YandexGeocoder;
 public class JoinData extends EnvironmentCommand<WtlConfiguration> {
 
     private static final Logger logger = LoggerFactory.getLogger(JoinData.class);
+
+    private final GridHash<District> regionGeoHash = new GridHash<>(new Point(0, 0), 0.1, 0.1);
 
     @Inject
     private YandexGeocoder geocoder;

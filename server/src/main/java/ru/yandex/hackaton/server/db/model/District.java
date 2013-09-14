@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import ru.yandex.hackaton.server.geocoder.geo.Line;
+
 /**
  * @author Sergey Polovko
  */
@@ -22,6 +24,9 @@ public class District extends BaseModel<Integer> {
 
     @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
+    private String borders;
 
 
     @Override
@@ -40,5 +45,21 @@ public class District extends BaseModel<Integer> {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getBorders() {
+        return borders;
+    }
+
+    public void setBorders(String borders) {
+        this.borders = borders;
+    }
+
+    public Line getGmlLine() {
+        return Line.parseGml(this.borders);
+    }
+
+    public Line getWktLine() {
+        return Line.parseWkt(this.borders);
     }
 }

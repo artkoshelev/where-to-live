@@ -9,7 +9,8 @@ import javax.inject.Singleton;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import ru.yandex.hackaton.server.db.model.Point;
+import ru.yandex.hackaton.server.geocoder.data.GeoInfo;
+import ru.yandex.hackaton.server.geocoder.geo.Point;
 
 /**
  * @author Sergey Polovko
@@ -40,8 +41,7 @@ public class YandexGeocoder {
         double lon = Double.parseDouble(pos[0]);
         double lat = Double.parseDouble(pos[1]);
         String address = document.getElementsByTag("AddressLine").text();
-        String districtName = "";
-        return new GeoInfo(address, districtName, new Point(lon, lat));
+        return new GeoInfo(address, new Point(lon, lat));
     }
 
     public GeoInfo geocode(String address) {
