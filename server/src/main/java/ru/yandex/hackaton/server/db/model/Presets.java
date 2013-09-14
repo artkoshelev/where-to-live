@@ -6,16 +6,17 @@ import javax.persistence.*;
  * @author Sergey Polovko
  */
 @Entity
-@Table(name = "districts_summary")
-public class DistrictsSummary extends BaseModel<Integer> {
+@Table(name = "presets")
+public class Presets extends BaseModel<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "districtsGen")
     @SequenceGenerator(name = "districtsGen", sequenceName = "districts_id")
-    private Integer id;
+    @Column(nullable = false)
+    private Integer presetid;
 
     @Column(nullable = false)
-    private Integer districtid;
+    private String presetname;
 
     @Column(nullable = false)
     private Integer child_polyclinic;
@@ -62,21 +63,44 @@ public class DistrictsSummary extends BaseModel<Integer> {
     @Column(nullable = false)
     private Integer piknik;
 
-
     public Integer getId() {
-        return id;
+        return presetid;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(Integer presetid) {
+        this.presetid = presetid;
     }
 
-    public Integer getDistrictid() {
-        return districtid;
+    public String getPresetname() {
+        return presetname;
     }
 
-    public void setDistrictid(Integer districtid) {
-        this.districtid = districtid;
+    public void setPresetname(String presetname) {
+        this.presetname = presetname;
+    }
+
+    public Integer getShops() {
+        return shops;
+    }
+
+    public void setShops(Integer shops) {
+        this.shops = shops;
+    }
+
+    public Integer getHigh_schools() {
+        return high_schools;
+    }
+
+    public void setHigh_schools(Integer high_schools) {
+        this.high_schools = high_schools;
+    }
+
+    public Integer getPiknik() {
+        return piknik;
+    }
+
+    public void setPiknik(Integer piknik) {
+        this.piknik = piknik;
     }
 
     public Integer getChild_polyclinic() {
