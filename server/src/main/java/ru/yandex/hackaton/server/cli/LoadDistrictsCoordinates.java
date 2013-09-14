@@ -3,7 +3,6 @@ package ru.yandex.hackaton.server.cli;
 import javax.inject.Inject;
 
 import com.codahale.dropwizard.Application;
-import com.codahale.dropwizard.cli.EnvironmentCommand;
 import com.codahale.dropwizard.setup.Environment;
 import net.sourceforge.argparse4j.inf.Namespace;
 
@@ -16,7 +15,7 @@ import ru.yandex.hackaton.server.geocoder.data.DistrictInfo;
 /**
  * @author Sergey Polovko
  */
-public class LoadDistrictsCoordinates extends EnvironmentCommand<WtlConfiguration> {
+public class LoadDistrictsCoordinates extends AbstractDbCommand {
 
     @Inject
     private DistrictsDao districtsDao;
@@ -30,10 +29,14 @@ public class LoadDistrictsCoordinates extends EnvironmentCommand<WtlConfiguratio
 
     @Override
     protected void run(Environment environment, Namespace namespace, WtlConfiguration configuration) throws Exception {
-        for (District district : districtsDao.findAll()) {
-            DistrictInfo districtInfo = mosOpenGeocoder.geocode(district.getName());
-            district.setBorders(districtInfo.getBorders().toWkt());
-            districtsDao.save(district);
-        }
+        doInSession(new Block() {
+            public void apply() {
+                for (District district : districtsDao.findAll()) {
+                    DistrictInfo districtInfo = mosOpenGeocoder.geocode(district.getName());
+                    district.setBorders(districtInfo.getBorders().toWkt());
+                    districtsDao.save(district);
+                }
+            }
+        });
     }
 }
