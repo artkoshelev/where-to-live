@@ -3,7 +3,7 @@ package ru.yandex.hackaton.server.db.model;
 import javax.persistence.*;
 
 @MappedSuperclass
-public abstract class DistrictInfo extends BaseModel<Integer>{
+public abstract class CategoryInfo extends BaseModel<Integer>{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "districtsInfoGen")
     @SequenceGenerator(name = "districtsInfoGen", sequenceName = "distInfo_id")

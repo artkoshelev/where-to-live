@@ -7,5 +7,5 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "hospitals")
-public class Hospitals extends DistrictInfo {
+public class Hospitals extends CategoryInfo {
 }

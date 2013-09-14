@@ -8,5 +8,5 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "child_polyclinic")
-public class ChildPolyclinic extends DistrictInfo {
+public class ChildPolyclinic extends CategoryInfo {
 }

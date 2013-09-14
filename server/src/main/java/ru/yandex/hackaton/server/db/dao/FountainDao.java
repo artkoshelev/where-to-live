@@ -1,7 +1,8 @@
 package ru.yandex.hackaton.server.db.dao;
 
 import org.hibernate.SessionFactory;
-import ru.yandex.hackaton.server.db.model.Hospitals;
+import ru.yandex.hackaton.server.db.model.DistrictsSummary;
+import ru.yandex.hackaton.server.db.model.Fountain;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -10,10 +11,10 @@ import javax.inject.Singleton;
  * @author Sergey Polovko
  */
 @Singleton
-public class HospitalsDao extends CrudDao<Hospitals> {
+public class FountainDao extends CrudDao<Fountain> {
 
     @Inject
-    public HospitalsDao(SessionFactory sessionFactory) {
+    public FountainDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 }

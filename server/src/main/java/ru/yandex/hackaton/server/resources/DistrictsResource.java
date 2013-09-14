@@ -35,11 +35,38 @@ public class DistrictsResource {
     private DrugsDao drugsDao;
     @Inject
     private ParksDao parksDao;
+    @Inject
+    private ElementariesDao elementariesDao;
+    @Inject
+    private NightSchoolsDao nightSchoolsDao;
+    @Inject
+    private PreSchoolsDao preSchoolsDao;
+    @Inject
+    private FountainDao fountainDao;
+    @Inject
+    private WiFiDao wiFiDao;
+    @Inject
+    private DistrictsSummaryDao districtsSummaryDao;
 
     @GET
     @UnitOfWork
     public List<District> getOperations() {
         return districtsDao.findAll();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("summary")
+    public List<DistrictsSummary> getSummary() {
+        return districtsSummaryDao.findAll();
+    }
+
+    @POST
+    @UnitOfWork
+    @Path("search")
+    public List<DistrictsSummary> getSearchResult(SearchParams params) {
+        System.out.println(params.getParams());
+        return districtsSummaryDao.findAll();
     }
 
     @GET
@@ -89,5 +116,40 @@ public class DistrictsResource {
     @Path("drugs")
     public List<Drugs> getDrugs() {
         return drugsDao.findAll();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("elementaries")
+    public List<Elementary> getElementaries() {
+        return elementariesDao.findAll();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("night_schools")
+    public List<NightSchool> getNightSchools() {
+        return nightSchoolsDao.findAll();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("preschool")
+    public List<PreSchool> getPreSchools() {
+        return preSchoolsDao.findAll();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("wifi")
+    public List<WiFi> getWiFi() {
+        return wiFiDao.findAll();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("fountains")
+    public List<Fountain> getFountains() {
+        return fountainDao.findAll();
     }
 }
