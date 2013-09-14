@@ -25,7 +25,7 @@ database:
     driverClass: org.postgresql.Driver
     url: jdbc:postgresql://5.9.142.76/wtl-db
 
-    user: wrl
+    user: wtl
     password: wtl123
 
     # any properties specific to your JDBC driver:
