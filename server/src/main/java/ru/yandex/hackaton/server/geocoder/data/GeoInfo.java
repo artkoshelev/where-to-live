@@ -22,6 +22,10 @@ public class GeoInfo {
         return EMPTY;
     }
 
+    public boolean isEmpty() {
+        return EMPTY == this;
+    }
+
     public String getAddress() {
         return address;
     }

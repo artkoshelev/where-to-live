@@ -1,9 +1,15 @@
 package ru.yandex.hackaton.server.db.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.SequenceGenerator;
 
 @MappedSuperclass
 public abstract class CategoryInfo extends BaseModel<Integer>{
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "districtsInfoGen")
     @SequenceGenerator(name = "districtsInfoGen", sequenceName = "distInfo_id")
@@ -17,6 +23,9 @@ public abstract class CategoryInfo extends BaseModel<Integer>{
 
     @Column(nullable = false)
     private String address;
+
+    @Column(nullable = false)
+    private String location;
 
 
     public String getAddress() {
@@ -41,6 +50,14 @@ public abstract class CategoryInfo extends BaseModel<Integer>{
 
     public void setDistrictId(Integer districtId) {
         this.districtId = districtId;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     @Override

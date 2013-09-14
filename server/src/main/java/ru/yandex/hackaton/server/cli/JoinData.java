@@ -1,13 +1,13 @@
 package ru.yandex.hackaton.server.cli;
 
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import com.codahale.dropwizard.Application;
 import com.codahale.dropwizard.setup.Environment;
 import net.sourceforge.argparse4j.inf.Namespace;
-import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +41,8 @@ public class JoinData extends AbstractDbCommand {
 
     private static final Logger logger = LoggerFactory.getLogger(JoinData.class);
 
-    private final GridHash<District> districtsGeoHash = new GridHash<>(new Point(0, 0), 0.1, 0.1);
+    private final GridHash<Integer> districtsGeoHash = new GridHash<>(new Point(0, 0), 0.01, 0.01);
+    private Map<Integer, DistrictBorder> districtsIds;
 
     @Inject
     private YandexGeocoder geocoder;
@@ -80,6 +81,7 @@ public class JoinData extends AbstractDbCommand {
     @Override
     protected void run(Environment environment, Namespace namespace, WtlConfiguration configuration) throws Exception {
         loadDistrictsGridHash();
+        loadDistrictsIds();
 
         joinToDistrictsFrom(hospitalsDao);
         joinToDistrictsFrom(childPolyclinicDao);
@@ -95,20 +97,57 @@ public class JoinData extends AbstractDbCommand {
         joinToDistrictsFrom(wiFiDao);
     }
 
-    private void loadDistrictsGridHash() {
-        for (District district : districtsDao.findAll()) {
-            districtsGeoHash.add(new DistrictBorder(district.getWktLine()), district);
+    private void loadDistrictsIds() {
+        doInSession(new Block() {
+            public void apply() {
+                districtsIds = new HashMap<>();
+
+                for (District district : districtsDao.findAll()) {
+                    districtsIds.put(district.getId(), new DistrictBorder(district.getWktLine()));
+                }
+            }
+        });
+    }
+
+    private Integer findDistrictId(Point point) {
+        for (Map.Entry<Integer, DistrictBorder> entry : districtsIds.entrySet()) {
+            if (entry.getValue().contains(point)) return entry.getKey();
         }
+        return null;
+    }
+
+    private void loadDistrictsGridHash() {
+        doInSession(new Block() {
+            public void apply() {
+                for (District district : districtsDao.findAll()) {
+                    districtsGeoHash.add(new DistrictBorder(district.getWktLine()), district.getId());
+                }
+            }
+        });
     }
 
     private <T extends CategoryInfo> void joinToDistrictsFrom(final CrudDao<T> dao) {
         doInSession(new Block() {
             public void apply() {
                 for (T categoryInfo : dao.findAll()) {
+                    // (1) geocode address -> point
                     GeoInfo geoInfo = geocoder.geocode(categoryInfo.getAddress());
-                    Set<District> districts = districtsGeoHash.getNearby(geoInfo.getPoint());
-                    Validate.isTrue(districts.size() == 1, "there too many districts for point " + geoInfo);
-                    categoryInfo.setDistrictId(districts.iterator().next().getId());
+                    if (geoInfo.isEmpty()) {
+                        logger.info("Skip address: {}", categoryInfo.getAddress());
+                        continue;
+                    }
+
+                    // (2) set location
+                    Point point = geoInfo.getPoint();
+                    logger.info("{} => {}", categoryInfo.getAddress(), point);
+                    categoryInfo.setLocation(point.toWkt());
+
+                    // (3) set district
+                    Integer districtId = findDistrictId(point);
+                    logger.info("{} => {}, {}", point, districtId);
+                    categoryInfo.setDistrictId(districtId);
+
+                    // (4) and save it
                     dao.save(categoryInfo);
                 }
             }

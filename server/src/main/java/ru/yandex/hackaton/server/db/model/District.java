@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import ru.yandex.hackaton.server.geocoder.geo.Line;
 
 /**
@@ -55,10 +57,12 @@ public class District extends BaseModel<Integer> {
         this.borders = borders;
     }
 
+    @JsonIgnore
     public Line getGmlLine() {
         return Line.parseGml(this.borders);
     }
 
+    @JsonIgnore
     public Line getWktLine() {
         return Line.parseWkt(this.borders);
     }
