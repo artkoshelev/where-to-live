@@ -51,7 +51,7 @@ public class Line {
         String[] coordinatesList = StringUtils.split(gml, ",");
         Validate.isTrue(coordinatesList.length > 0);
 
-        List<Point> points = new ArrayList<>();
+        List<Point> points = new ArrayList<>(coordinatesList.length);
         for (String coordinates : coordinatesList) {
             points.add(Point.parseGml(coordinates));
         }
@@ -63,7 +63,7 @@ public class Line {
         String[] coordinatesList = StringUtils.split(wkt, ",");
         Validate.isTrue(coordinatesList.length > 0);
 
-        List<Point> points = new ArrayList<>();
+        List<Point> points = new ArrayList<>(coordinatesList.length);
         for (String coordinates : coordinatesList) {
             points.add(Point.parseWkt(coordinates));
         }
