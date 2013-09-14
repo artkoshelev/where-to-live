@@ -2,7 +2,10 @@
 .settings
 target
 .DS_Store
+.gradle/
 where-to-live/.idea
 where-to-live/.gradle
 where-to-live/where-to-live/build
 *.iml
+*.ipr
+*.iws
