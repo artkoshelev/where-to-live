@@ -9,10 +9,8 @@ allprojects {
 }
 
 subprojects {
-    apply plugin: "java"
     apply from: "${rootDir}/libs.gradle"
 
-    compileJava.options.encoding = "UTF-8"
 
     repositories {
         maven {
