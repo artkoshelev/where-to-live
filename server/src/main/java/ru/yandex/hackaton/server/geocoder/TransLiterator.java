@@ -44,7 +44,7 @@ public class TransLiterator {
     };
 
     public static final String[] alphabet_eng = new String[]{
-            "a","b","v","g","d","e","e","zh","z","i","y","k","l","m","n","o","p",
-            "r","s","t","u","f","h","c","ch","sh","sch","","y","","e","yu","ya", "_"
+            "a","b","v","g","d","e","e","zh","z","i","j","k","l","m","n","o","p",
+            "r","s","t","u","f","h","c","ch","sh","shch","","y","","e","yu","ya", "_"
     };
 }

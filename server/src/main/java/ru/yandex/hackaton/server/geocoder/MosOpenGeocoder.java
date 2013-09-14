@@ -22,35 +22,33 @@ import ru.yandex.hackaton.server.geocoder.geo.Point;
 @Singleton
 public class MosOpenGeocoder {
 
-    private final DataHost<DistrictInfo> dataHost = new DataHost<DistrictInfo>("mosopen.ru") {
+    private final DataHost<Line> dataHost = new DataHost<Line>("mosopen.ru") {
         @Override
-        protected DistrictInfo parseResponse(InputStream content, Charset charset) throws IOException {
-            System.out.println(content);
-            return null;
+        protected Line parseResponse(InputStream content, Charset charset) throws IOException {
+            return parseDistrictInfo(content, charset);
         }
 
         @Override
-        protected DistrictInfo emptyResponse(Charset charset) {
+        protected Line emptyResponse(Charset charset) {
             return null;
         }
     };
 
     public DistrictInfo geocode(String districtName) {
+        System.out.println(districtName);
         String translitName = TransLiterator.translitRustoEng(districtName);
-        return dataHost.get("/public/ymapsml.php", "p", String.format("region/%s/map_xml", translitName));
+        Line borders = dataHost.get(
+                "/public/ymapsml.php", "p", String.format("region/%s/map_xml", translitName));
+        return new DistrictInfo(districtName, borders);
     }
 
-    public DistrictInfo parseDistrictInfo(String xml, Charset charset, String districtName) throws IOException {
-        Document document = Jsoup.parse(new File(xml), charset.name());
-        String name = districtName;
-        List<Point> points = new ArrayList<Point>();
+    private Line parseDistrictInfo(InputStream xml, Charset charset) throws IOException {
+        Document document = Jsoup.parse(xml, charset.name(), "");
+        List<Point> points = new ArrayList<>();
         for (Element pos : document.getElementsByTag("gml:pos")) {
-             points.add(new Point(
-                     Double.valueOf(pos.text().split(" ")[0]),
-                     Double.valueOf(pos.text().split(" ")[1])));
+             points.add(Point.parseWkt(pos.text()));
         }
         Line borders = new Line(points);
-        DistrictInfo result = new DistrictInfo(name, borders);
-        return result;
+        return borders;
     }
 }
