@@ -17,7 +17,7 @@ public class District extends BaseModel<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "districtsGen")
-    @SequenceGenerator(name = "districtsGen", sequenceName = "sidtricts_id")
+    @SequenceGenerator(name = "districtsGen", sequenceName = "districts_id")
     private Integer id;
 
     @Column(nullable = false)
@@ -32,5 +32,13 @@ public class District extends BaseModel<Integer> {
     @Override
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
