@@ -29,6 +29,8 @@ public class DistrictsResource {
     private ChildTeethPolyclinicDao childTeethPolyclinicDao;
     @Inject
     private CityPolyclinicDao cityPolyclinicDao;
+    @Inject
+    private ParksDao parksDao;
 
     @GET
     @UnitOfWork
@@ -62,5 +64,12 @@ public class DistrictsResource {
     @Path("city_polyclinic")
     public List<CityPolyclinic> getCityPolyclinic() {
         return cityPolyclinicDao.findAll();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("parks")
+    public List<Parks> getParks() {
+        return parksDao.findAll();
     }
 }
