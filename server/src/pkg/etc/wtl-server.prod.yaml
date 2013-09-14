@@ -1,12 +1,12 @@
 server:
     applicationConnectors:
         - type: http
-          port: 3001
+          port: 32323
           bindHost: 127.0.0.1
     adminConnectors:
         - type: http
-          port: 3002
-          bindHost: .0.0.0
+          port: 32324
+          bindHost: 127.0.0.1
 
 # Logging settings.
 logging:
@@ -20,8 +20,8 @@ logging:
 
     appenders:
         - type: file
-          currentLogFilename: ./logs/app.log
-          archivedLogFilenamePattern: ./logs/app-%d.log.gz
+          currentLogFilename: /var/log/wtl/app.log
+          archivedLogFilenamePattern: /var/log/wtl/app-%d.log.gz
           archivedFileCount: 30
 
 database:
