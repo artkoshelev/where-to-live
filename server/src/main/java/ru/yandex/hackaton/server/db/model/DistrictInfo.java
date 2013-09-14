@@ -10,7 +10,7 @@ public abstract class DistrictInfo extends BaseModel<Integer>{
     private Integer id;
 
     @Column
-    private String districtId;
+    private Integer districtId;
 
     @Column(nullable = false)
     private String name;
@@ -35,11 +35,11 @@ public abstract class DistrictInfo extends BaseModel<Integer>{
         this.name = name;
     }
 
-    public String getDistrictId() {
+    public Integer getDistrictId() {
         return districtId;
     }
 
-    public void setDistrictId(String districtId) {
+    public void setDistrictId(Integer districtId) {
         this.districtId = districtId;
     }
 

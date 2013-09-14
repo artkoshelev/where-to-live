@@ -8,10 +8,8 @@ import javax.ws.rs.core.MediaType;
 
 import com.codahale.dropwizard.hibernate.UnitOfWork;
 
-import ru.yandex.hackaton.server.db.dao.DistrictsDao;
-import ru.yandex.hackaton.server.db.dao.HospitalsDao;
-import ru.yandex.hackaton.server.db.model.District;
-import ru.yandex.hackaton.server.db.model.Hospitals;
+import ru.yandex.hackaton.server.db.dao.*;
+import ru.yandex.hackaton.server.db.model.*;
 
 /**
  * @author Sergey Polovko
@@ -23,9 +21,14 @@ public class DistrictsResource {
 
     @Inject
     private DistrictsDao districtsDao;
-
     @Inject
     private HospitalsDao hospitalsDao;
+    @Inject
+    private ChildPolyclinicDao childPolyclinicDao;
+    @Inject
+    private ChildTeethPolyclinicDao childTeethPolyclinicDao;
+    @Inject
+    private CityPolyclinicDao cityPolyclinicDao;
 
     @GET
     @UnitOfWork
@@ -38,5 +41,26 @@ public class DistrictsResource {
     @Path("hospitals")
     public List<Hospitals> getHospitals() {
         return hospitalsDao.findAll();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("child_polyclinic")
+    public List<ChildPolyclinic> getChildPolyclinic() {
+        return childPolyclinicDao.findAll();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("child_teeth_polyclinic")
+    public List<ChildTeethPolyclinic> getChildTeethPolyclinic() {
+        return childTeethPolyclinicDao.findAll();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("city_polyclinic")
+    public List<CityPolyclinic> getCityPolyclinic() {
+        return cityPolyclinicDao.findAll();
     }
 }
