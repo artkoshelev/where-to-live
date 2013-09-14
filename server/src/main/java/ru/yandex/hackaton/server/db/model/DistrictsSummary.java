@@ -50,6 +50,12 @@ public class DistrictsSummary extends BaseModel<Integer> {
     @Column(nullable = false)
     private Integer fountains;
 
+    @Column(nullable = false)
+    private Integer wifi;
+
+    @Column(nullable = false)
+    private Integer shops;
+
     public Integer getId() {
         return id;
     }
@@ -152,5 +158,13 @@ public class DistrictsSummary extends BaseModel<Integer> {
 
     public void setFountains(Integer fountains) {
         this.fountains = fountains;
+    }
+
+    public Integer getWifi() {
+        return wifi;
+    }
+
+    public void setWifi(Integer wifi) {
+        this.wifi = wifi;
     }
 }
