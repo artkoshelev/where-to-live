@@ -41,3 +41,16 @@ defaultTasks "clean", "build"
 task wrapper(type: Wrapper) {
     gradleVersion = '1.7'
 }
+
+jar {
+    from {
+        configurations.runtime.collect {
+            it.isDirectory() ? it : zipTree(it).matching {
+                exclude { it.name.endsWith(".RSA") || it.name.endsWith(".SF") || it.name.endsWith(".DSA") }
+            }
+        }
+    }
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
