@@ -4,10 +4,10 @@ ext {
     libraries = [
             // dropwizard
             dropwizard_core:      "com.codahale.dropwizard:dropwizard-core:${dropwizardVersion}",
-            dropwizard_auth:      "com.codahale.dropwizard:dropwizard-auth:${dropwizardVersion}",
             dropwizard_hibernate: "com.codahale.dropwizard:dropwizard-hibernate:${dropwizardVersion}",
             dropwizard_testing:   "com.codahale.dropwizard:dropwizard-testing:${dropwizardVersion}",
             dropwizard_guice:     "com.hubspot.dropwizard:dropwizard-guice:${dropwizardVersion}",
+            dropwizard_assets:    "com.codahale.dropwizard:dropwizard-assets:${dropwizardVersion}",
 
             // database
             postgres:             "org.postgresql:postgresql:9.2-1002-jdbc4",

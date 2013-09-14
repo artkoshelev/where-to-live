@@ -25,10 +25,10 @@ repositories {
 
 dependencies {
     compile libraries.dropwizard_core
-    compile libraries.dropwizard_auth
     compile libraries.dropwizard_guice
     compile libraries.dropwizard_hibernate
     compile libraries.dropwizard_testing
+    compile libraries.dropwizard_assets
     compile libraries.commons_lang
     compile libraries.httpcomponents
     compile libraries.jsoup
