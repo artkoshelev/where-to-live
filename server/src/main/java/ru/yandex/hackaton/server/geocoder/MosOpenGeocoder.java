@@ -46,7 +46,7 @@ public class MosOpenGeocoder {
         Document document = Jsoup.parse(xml, charset.name(), "");
         List<Point> points = new ArrayList<>();
         for (Element pos : document.getElementsByTag("gml:pos")) {
-             points.add(Point.parseWkt(pos.text()));
+             points.add(Point.parseGml(pos.text()));
         }
         Line borders = new Line(points);
         return borders;
