@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
+import javax.inject.Singleton;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -12,6 +14,7 @@ import ru.yandex.hackaton.server.db.model.Point;
 /**
  * @author Sergey Polovko
  */
+@Singleton
 public class YandexGeocoder {
 
     private final DataHost<GeoInfo> dataHost;
@@ -37,14 +40,15 @@ public class YandexGeocoder {
         double lon = Double.parseDouble(pos[0]);
         double lat = Double.parseDouble(pos[1]);
         String address = document.getElementsByTag("AddressLine").text();
-        return new GeoInfo(address, new Point(lon, lat));
+        String districtName = "";
+        return new GeoInfo(address, districtName, new Point(lon, lat));
     }
 
     public GeoInfo geocode(String address) {
-        return dataHost.get("/1.x", "geocode", address);
+        return dataHost.get("/1.x/", "geocode", address);
     }
 
     public GeoInfo geocode(Point point) {
-        return dataHost.get("/1.x", "geocode", String.format("%d,%d", point.getLon(), point.getLat()));
+        return dataHost.get("/1.x/", "geocode", String.format("%d,%d", point.getLon(), point.getLat()));
     }
 }
