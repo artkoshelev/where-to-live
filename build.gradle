@@ -2,25 +2,27 @@ apply from: "libs.gradle"
 
 allprojects {
     apply plugin: 'idea'
-    apply plugin: 'java'
+
+    group = "ru.yandex.hackaton"
+    version = "0.0.1"
+    description = "Where To Live"
 }
 
-version = "0.0.1"
+subprojects {
+    apply plugin: "java"
+    apply from: "${rootDir}/libs.gradle"
 
-apply plugin: "java"
-apply plugin: 'application'
+    compileJava.options.encoding = "UTF-8"
 
-sourceCompatibility = '1.7'
-targetCompatibility = '1.7'
-
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
-repositories {
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
+    repositories {
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots"
+        }
+        mavenCentral()
     }
-    mavenCentral()
 }
+
+defaultTasks "clean", "build"
 
 //noinspection GrUnresolvedAccess
 task wrapper(type: Wrapper) {
