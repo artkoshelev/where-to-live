@@ -11,12 +11,23 @@
 	<modules>
 		<module>where-to-live</module>
 		<module>where-to-live-it</module>
+		<module>where-to-live-backend</module>
 	</modules>
 
+    <repositories>
+        <repository>
+            <id>sonatype</id>
+            <name>Sonatype</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <snapshots><enabled>true</enabled></snapshots>
+            <releases><enabled>false</enabled></releases>
+        </repository>
+    </repositories>
+
 	<properties>
-		<platform.version> 4.1.1.4
-					</platform.version>
+		<platform.version> 4.1.1.4</platform.version>
 		<android.plugin.version>3.6.0</android.plugin.version>
+        <dropwizard.version>0.7.0-SNAPSHOT</dropwizard.version>
 	</properties>
 
 	<dependencyManagement>
@@ -39,6 +50,11 @@
 				<version>4.11</version>
 				<scope>provided</scope>
 			</dependency>
+            <dependency>
+                <groupId>com.codahale.dropwizard</groupId>
+                <artifactId>dropwizard-core</artifactId>
+                <version>${dropwizard.version}</version>
+            </dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -52,7 +68,7 @@
 					<configuration>
 						<sdk>
 							<platform>16</platform>
-						</sdk> 
+						</sdk>
 											</configuration>
 				</plugin>
 				<plugin>
