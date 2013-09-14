@@ -29,6 +29,9 @@ public class Population extends BaseModel<Integer> {
     @Column(nullable = false)
     private Integer woman;
 
+    @Column
+    private Integer districtid;
+
     @Override
     public Integer getId() {
         return id;
@@ -69,5 +72,13 @@ public class Population extends BaseModel<Integer> {
 
     public void setWoman(Integer woman) {
         this.woman = woman;
+    }
+
+    public Integer getDistrictid() {
+        return districtid;
+    }
+
+    public void setDistrictid(Integer districtid) {
+        this.districtid = districtid;
     }
 }
