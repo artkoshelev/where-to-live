@@ -1,7 +1,11 @@
 package ru.yandex.hackaton.server.db.model;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * @author Sergey Polovko
@@ -57,7 +61,7 @@ public class DistrictsSummary extends BaseModel<Integer> {
     private Integer shops;
 
     @Column
-    private Integer high_schools;
+    private Integer highschools;
 
     @Column
     private Integer piknik;
@@ -194,12 +198,12 @@ public class DistrictsSummary extends BaseModel<Integer> {
         this.shops = shops;
     }
 
-    public Integer getHigh_schools() {
-        return high_schools;
+    public Integer getHighschools() {
+        return highschools;
     }
 
-    public void setHigh_schools(Integer high_schools) {
-        this.high_schools = high_schools;
+    public void setHighschools(Integer highschools) {
+        this.highschools = highschools;
     }
 
     public Integer getPiknik() {
