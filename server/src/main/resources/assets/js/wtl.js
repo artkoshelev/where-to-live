@@ -28,7 +28,9 @@ function loadCategories() {
 
 function drawDistrict(e) {
     e.preventDefault();
-    var id = $(this).attr('id');
+    var $this = $(this);
+    var id = $this.attr('id');
+    var rank = parseInt($this.find('.badge').text());
 
     $.getJSON("/api/districts/" + id + "/polygon", function (data) {
         var myPolygon = new ymaps.Polygon([
@@ -37,7 +39,7 @@ function drawDistrict(e) {
             id: id,
             hintContent: data.name
         }, {
-            fillColor: '#88FF8888',
+            fillColor: getColor(rank),
             strokeWidth: 1
         });
 
@@ -80,6 +82,17 @@ function drawSerp(data) {
         'class': 'list-group',
         html: items.slice(0, 15).join('')
     }).appendTo('.result');
+}
+
+function getColor(rank) {
+    var colors = [
+        "#0000FF", "#0020FF", "#0040FF", "#0060FF", "#0080FF", "#00A0FF", "#00C0FF", "#00E0FF", "#00FFFF",
+        "#00FFE0", "#00FFC0", "#00FFA0", "#00FF80", "#00FF60", "#00FF40", "#00FF20", "#00FF00", "#20FF00",
+        "#40FF00", "#60FF00", "#80FF00", "#A0FF00", "#C0FF00", "#E0FF00", "#FFFF00", "#FFE000", "#FFC000",
+        "#FFA000", "#FF8000", "#FF6000", "#FF4000", "#FF2000", "#FF0000"
+    ];
+
+    return colors[Math.round((colors.length - 1) * rank / 100.0)];
 }
 
 $(document).ready(function() {
