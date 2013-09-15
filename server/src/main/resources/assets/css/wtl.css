@@ -43,7 +43,7 @@ body {
     z-index: 1000;
 }
 
-.params input[type="text"] {
-    width: 30px;
+.slider {
+    width: 50px;
     float: right;
 }

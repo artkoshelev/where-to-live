@@ -1,16 +1,28 @@
+window.searchCategories = [];
+
+
 function loadCategories() {
     $.getJSON("/api/categories", function (data) {
         var items = [];
 
         $.each(data, function (key, val) {
-            items.push('<li id="p' + val.id + '" class="list-group-item">' + val.name +
-                    '<input type="text" name="' + val.searchparam + '" value="0"/></li>');
+            window.searchCategories.push(val.searchparam);
+            items.push('<li class="list-group-item">' + val.name +
+                    '<span class="slider" id="' + val.searchparam + '"/></li>');
         });
 
         $('<ul/>', {
             'class': 'list-group',
             html: items.join('')
         }).appendTo('.params .list');
+
+        $('.params .slider').slider({
+            min: 0,
+            max: 10,
+            step: 1,
+            value: 0,
+            tooltip: 'hide'
+        })
     });
 }
 
@@ -20,18 +32,12 @@ function drawDistrict(e) {
 
     $.getJSON("/api/districts/" + id + "/polygon", function (data) {
         var myPolygon = new ymaps.Polygon([
-            // Указываем координаты вершин многоугольника.
-            // Координаты вершин внешнего контура.
             data.coords
         ], {
-            // Описываем свойства геообъекта.
-            // Содержимое балуна.
+            id: id,
             hintContent: data.name
         }, {
-            // Задаем опции геообъекта.
-            // Цвет заливки.
-            fillColor: '#99FF9988',
-            // Ширина обводки.
+            fillColor: '#88FF8888',
             strokeWidth: 1
         });
 
@@ -40,27 +46,29 @@ function drawDistrict(e) {
     });
 }
 
-$.fn.serializeObject = function()
-{
-    var o = {};
-    var a = this.serializeArray();
-    $.each(a, function() {
-        if (o[this.name] !== undefined) {
-            if (!o[this.name].push) {
-                o[this.name] = [o[this.name]];
-            }
-            o[this.name].push(this.value || '');
-        } else {
-            o[this.name] = this.value || '';
+function clearMap() {
+    window.myMap.geoObjects.each(function (geoObject) {
+        window.myMap.geoObjects.remove(geoObject);
+    });
+}
+
+function deleteObjectFromMap(id) {
+    var deleted = false;
+    window.myMap.geoObjects.each(function (geoObject) {
+        if (geoObject.properties.get('id') == id) {
+            deleted = true;
+            window.myMap.geoObjects.remove(geoObject);
+            return false;
         }
     });
-    return o;
-};
-
+    return deleted;
+}
 
 function drawSerp(data) {
     var items = [];
     $('.result').empty();
+
+    clearMap();
 
     $.each(data, function (key, val) {
         items.push('<li id="' + val.id + '" class="list-group-item">' +
@@ -78,7 +86,11 @@ $(document).ready(function() {
     loadCategories();
 
     $('.params button').click(function() {
-        var data = $(".params .list").serializeObject();
+        var data = {};
+        $.each(window.searchCategories, function(key, val) {
+            data[val] = $('#' + val).data('value');
+        });
+
         $.ajax({
             headers: {
                 'Accept': 'application/json',
@@ -86,7 +98,7 @@ $(document).ready(function() {
             },
             type: "POST",
             url: "/api/districts/search",
-            data: JSON.stringify({params: data}),
+            data: JSON.stringify($.isEmptyObject(data) ? {params: null} : {params: data}),
             success: function (data) {
                 drawSerp(data);
             },
@@ -95,6 +107,8 @@ $(document).ready(function() {
     });
 
     $(".result").on("click", "li", function(e) {
-        drawDistrict.call(this, e);
+        if (!deleteObjectFromMap($(this).attr('id'))) {
+            drawDistrict.call(this, e);
+        }
     });
 });
