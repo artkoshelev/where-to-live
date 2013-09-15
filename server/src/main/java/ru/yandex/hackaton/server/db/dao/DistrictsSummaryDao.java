@@ -43,11 +43,13 @@ public class DistrictsSummaryDao extends CrudDao<DistrictsSummary> {
         }
         result.append(", ");
 
+        result.append("(");
         for (String param : params.getParams().keySet()) {
             result.append(param + " * " + params.getParams().get(param) + " + ");
         }
 
         String res = result.substring(0, result.length() - 3);
+        res += ") * districts_summary.size";
         res += " as summ";
 
         return res;

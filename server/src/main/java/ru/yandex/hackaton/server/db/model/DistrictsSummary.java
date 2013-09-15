@@ -62,6 +62,8 @@ public class DistrictsSummary extends BaseModel<Integer> {
     @Column
     private BigDecimal summ;
 
+    @Column
+    private Integer size;
 
     public Integer getId() {
         return id;
@@ -205,5 +207,13 @@ public class DistrictsSummary extends BaseModel<Integer> {
 
     public void setSumm(BigDecimal summ) {
         this.summ = summ;
+    }
+
+    public Integer getSize() {
+        return size;
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
     }
 }
