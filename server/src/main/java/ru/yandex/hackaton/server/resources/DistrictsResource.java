@@ -89,6 +89,10 @@ public class DistrictsResource {
     private PiknikDao piknikDao;
     @Inject
     private HighSchoolsDao highSchoolsDao;
+    @Inject
+    private BusStopsDao busStopsDao;
+    @Inject
+    private LibrariesDao librariesDao;
 
     @GET
     @UnitOfWork
@@ -213,5 +217,19 @@ public class DistrictsResource {
     @Path("highschool")
     public List<HighSchool> getHighSchool() {
         return highSchoolsDao.findAll();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("bus_stops")
+    public List<BusStop> getBusStops() {
+        return busStopsDao.findAll();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("libraries")
+    public List<Library> getLibraries() {
+        return librariesDao.findAll();
     }
 }
