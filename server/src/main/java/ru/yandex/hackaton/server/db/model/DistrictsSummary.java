@@ -15,6 +15,9 @@ public class DistrictsSummary extends BaseModel<Integer> {
     private Integer id;
 
     @Column
+    private String districtname;
+
+    @Column
     private Integer child_polyclinic;
 
     @Column
@@ -237,5 +240,13 @@ public class DistrictsSummary extends BaseModel<Integer> {
 
     public void setLibraries(Integer libraries) {
         this.libraries = libraries;
+    }
+
+    public String getDistrictname() {
+        return districtname;
+    }
+
+    public void setDistrictname(String districtname) {
+        this.districtname = districtname;
     }
 }
