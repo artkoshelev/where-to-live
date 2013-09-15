@@ -60,6 +60,12 @@ public class DistrictsSummary extends BaseModel<Integer> {
     private Integer piknik;
 
     @Column
+    private Integer bus_stops;
+
+    @Column
+    private Integer libraries;
+
+    @Column
     private BigDecimal summ;
 
     @Column
@@ -70,6 +76,14 @@ public class DistrictsSummary extends BaseModel<Integer> {
     }
 
     public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getDistrictid() {
+        return id;
+    }
+
+    public void setDistrictid(Integer id) {
         this.id = id;
     }
 
@@ -191,14 +205,6 @@ public class DistrictsSummary extends BaseModel<Integer> {
 
     public void setPiknik(Integer piknik) {
         this.piknik = piknik;
-    }
-
-    public Integer getDistrictidq() {
-        return id;
-    }
-
-    public void setDistrictid(Integer id) {
-        this.id = id;
     }
 
     public BigDecimal getSumm() {

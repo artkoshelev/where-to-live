@@ -38,18 +38,28 @@ public class DistrictsSummaryDao extends CrudDao<DistrictsSummary> {
 
     public String getColumns(SearchParams params) {
         StringBuffer result = new StringBuffer("districts_summary.districtid");
+        boolean hasParams = false;
         for (String param : params.getParams().keySet()) {
-            result.append(", " + param);
+            if (params.getParams().get(param) != 0) {
+                result.append(", " + param);
+                hasParams = true;
+            }
         }
         result.append(", ");
 
         result.append("(");
-        for (String param : params.getParams().keySet()) {
-            result.append(param + " * " + params.getParams().get(param) + " + ");
+        if (hasParams) {
+            for (String param : params.getParams().keySet()) {
+                result.append(param + " * " + params.getParams().get(param) + " + ");
+            }
+        } else {
+            for (String param : params.getParams().keySet()) {
+                result.append(param + " + ");
+            }
         }
 
         String res = result.substring(0, result.length() - 3);
-        res += ") * districts_summary.size";
+        res += ") * districts_summary.size * 1.0";
         res += " as summ";
 
         return res;
