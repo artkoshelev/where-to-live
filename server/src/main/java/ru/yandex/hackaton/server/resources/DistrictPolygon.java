@@ -1,12 +1,11 @@
 package ru.yandex.hackaton.server.resources;
 
-import javafx.util.Pair;
+import java.util.ArrayList;
+import java.util.List;
+
 import ru.yandex.hackaton.server.db.model.District;
 import ru.yandex.hackaton.server.geocoder.geo.Line;
 import ru.yandex.hackaton.server.geocoder.geo.Point;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
