@@ -26,26 +26,17 @@ function loadCategories() {
     });
 }
 
-function drawDistrict(e) {
-    e.preventDefault();
-    var $this = $(this);
-    var id = $this.attr('id');
-    var rank = parseInt($this.find('.badge').text());
-
-    $.getJSON("/api/districts/" + id + "/polygon", function (data) {
-        var myPolygon = new ymaps.Polygon([
-            data.coords
-        ], {
-            id: id,
-            hintContent: data.name
-        }, {
-            fillColor: getColor(rank),
-            strokeWidth: 1
-        });
-
-        // Добавляем многоугольник на карту.
-        window.myMap.geoObjects.add(myPolygon);
+function drawDistrict(id, name, coords, color) {
+    var myPolygon = new ymaps.Polygon([
+        coords
+    ], {
+        id: id,
+        hintContent: name
+    }, {
+        fillColor: color,
+        strokeWidth: 1
     });
+    window.myMap.geoObjects.add(myPolygon);
 }
 
 function clearMap() {
@@ -66,13 +57,25 @@ function deleteObjectFromMap(id) {
     return deleted;
 }
 
+function drawAllDistricts(ids) {
+    $.getJSON('/api/districts/' + ids.join(',') + '/polygons', function(data) {
+        $.each(data, function(key, value) {
+            var rank = parseInt($('#' + value.id + ' .badge').text());
+            drawDistrict(value.id, value.name, value.coords, getColor(rank))
+        });
+    });
+}
+
 function drawSerp(data) {
     var items = [];
     $('.result').empty();
 
     clearMap();
 
+    var ids = [];
     $.each(data, function (key, val) {
+        ids.push(val.id);
+
         items.push('<li id="' + val.id + '" class="list-group-item">' +
                 '<span class="badge">' + val.summ + '</span> ' + val.districtname +
                 '</li>');
@@ -82,6 +85,8 @@ function drawSerp(data) {
         'class': 'list-group',
         html: items.slice(0, 15).join('')
     }).appendTo('.result');
+
+    drawAllDistricts(ids.slice(0, 15));
 }
 
 function getColor(rank) {
@@ -120,7 +125,14 @@ $(document).ready(function() {
     });
 
     $(".result").on("click", "li", function(e) {
-        if (!deleteObjectFromMap($(this).attr('id'))) {
+        var $this = $(this);
+        var id = $this.attr('id');
+        if (!deleteObjectFromMap(id)) {
+            var rank = parseInt($this.find('.badge').text());
+
+            $.getJSON("/api/districts/" + id + "/polygon", function (data) {
+                drawDistrict(id, data.name, data.coords, getColor(rank))
+            });
             drawDistrict.call(this, e);
         }
     });
