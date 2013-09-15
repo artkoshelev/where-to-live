@@ -3,6 +3,7 @@ package ru.yandex.hackaton.server.db.dao;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
+import org.hibernate.transform.Transformers;
 import ru.yandex.hackaton.server.db.model.DistrictsSummary;
 import ru.yandex.hackaton.server.db.model.Elementary;
 import ru.yandex.hackaton.server.resources.SearchParams;
@@ -29,16 +30,18 @@ public class DistrictsSummaryDao extends CrudDao<DistrictsSummary> {
     }
 
     private Query toQuery(SearchParams params) {
-        String query = "SELECT " + getColumns(params) + " FROM districts_summary ORDER BY summ";
+        String query = "SELECT " + getColumns(params) + " FROM districts_summary ORDER BY summ DESC";
         System.out.println(query);
-        return currentSession().createSQLQuery(query);
+        return currentSession().createSQLQuery(query)
+                .setResultTransformer(Transformers.aliasToBean(DistrictsSummary.class));
     }
 
     public String getColumns(SearchParams params) {
-        StringBuffer result = new StringBuffer();
+        StringBuffer result = new StringBuffer("districts_summary.districtid");
         for (String param : params.getParams().keySet()) {
-            result.append(param + ", ");
+            result.append(", " + param);
         }
+        result.append(", ");
 
         for (String param : params.getParams().keySet()) {
             result.append(param + " * " + params.getParams().get(param) + " + ");

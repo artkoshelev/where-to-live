@@ -111,7 +111,9 @@ public class DistrictsResource {
     @UnitOfWork
     @Path("search")
     public List<DistrictsSummary> getSearchResult(SearchParams params) {
-        return districtsSummaryDao.find(params);
+        List<DistrictsSummary> res = districtsSummaryDao.find(params);
+        System.out.println(res.size());
+        return res;
     }
 
     @GET

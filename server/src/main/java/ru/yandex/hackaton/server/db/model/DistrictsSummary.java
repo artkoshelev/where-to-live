@@ -1,6 +1,7 @@
 package ru.yandex.hackaton.server.db.model;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 /**
  * @author Sergey Polovko
@@ -10,57 +11,56 @@ import javax.persistence.*;
 public class DistrictsSummary extends BaseModel<Integer> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "districtsGen")
-    @SequenceGenerator(name = "districtsGen", sequenceName = "districts_id")
+    @Column(name = "districtid")
     private Integer id;
 
-    @Column(nullable = false)
-    private Integer districtid;
-
-    @Column(nullable = false)
+    @Column
     private Integer child_polyclinic;
 
-    @Column(nullable = false)
+    @Column
     private Integer child_teeth_polyclinic;
 
-    @Column(nullable = false)
+    @Column
     private Integer city_polyclinic;
 
-    @Column(nullable = false)
+    @Column
     private Integer dispensary;
 
-    @Column(nullable = false)
+    @Column
     private Integer drugs;
 
-    @Column(nullable = false)
+    @Column
     private Integer elementaries;
 
-    @Column(nullable = false)
+    @Column
     private Integer hospitals;
 
-    @Column(nullable = false)
+    @Column
     private Integer night_schools;
 
-    @Column(nullable = false)
+    @Column
     private Integer parks;
 
-    @Column(nullable = false)
+    @Column
     private Integer pre_schools;
 
-    @Column(nullable = false)
+    @Column
     private Integer fountains;
 
-    @Column(nullable = false)
+    @Column
     private Integer wifi;
 
-    @Column(nullable = false)
+    @Column
     private Integer shops;
 
-    @Column(nullable = false)
+    @Column
     private Integer high_schools;
 
-    @Column(nullable = false)
+    @Column
     private Integer piknik;
+
+    @Column
+    private BigDecimal summ;
 
 
     public Integer getId() {
@@ -69,14 +69,6 @@ public class DistrictsSummary extends BaseModel<Integer> {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getDistrictid() {
-        return districtid;
-    }
-
-    public void setDistrictid(Integer districtid) {
-        this.districtid = districtid;
     }
 
     public Integer getChild_polyclinic() {
@@ -173,5 +165,45 @@ public class DistrictsSummary extends BaseModel<Integer> {
 
     public void setWifi(Integer wifi) {
         this.wifi = wifi;
+    }
+
+    public Integer getShops() {
+        return shops;
+    }
+
+    public void setShops(Integer shops) {
+        this.shops = shops;
+    }
+
+    public Integer getHigh_schools() {
+        return high_schools;
+    }
+
+    public void setHigh_schools(Integer high_schools) {
+        this.high_schools = high_schools;
+    }
+
+    public Integer getPiknik() {
+        return piknik;
+    }
+
+    public void setPiknik(Integer piknik) {
+        this.piknik = piknik;
+    }
+
+    public Integer getDistrictidq() {
+        return id;
+    }
+
+    public void setDistrictid(Integer id) {
+        this.id = id;
+    }
+
+    public BigDecimal getSumm() {
+        return summ;
+    }
+
+    public void setSumm(BigDecimal summ) {
+        this.summ = summ;
     }
 }
