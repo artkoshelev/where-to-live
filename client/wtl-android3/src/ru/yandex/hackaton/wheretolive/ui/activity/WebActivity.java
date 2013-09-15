@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import ru.yandex.hackaton.wheretolive.DataHolder;
 import ru.yandex.hackaton.wheretolive.R;
 import ru.yandex.hackaton.wheretolive.db.utils.WtlUtils;
 import ru.yandex.hackaton.wheretolive.server.entity.District;
@@ -32,8 +33,8 @@ public class WebActivity extends Activity {
             "        balloonContent: '<p>\"%s\"</p>'+\n" +
             "'<button onclick=\"showInfo(%s)\">Подробнее</button>'\n" +
             "    }, {\n" +
-            "        fillColor: '#00FF0088',\n" +
-            "        strokeWidth: 2\n" +
+            "        fillColor: getColor(%s),\n" +
+            "        strokeWidth: 1\n" +
             "    });\n" +
             "    myMap.geoObjects.add(myPolygon);";
 
@@ -67,7 +68,7 @@ public class WebActivity extends Activity {
         int districtsId[] = getIntent().getIntArrayExtra("districtIds");
         for (int i = 0; i < districtsId.length; i++) {
             District district = WtlUtils.Factory.get(this).getDistrictById(districtsId[i]);
-            String polygon = String.format(POLYGON_FORMAT, getCoordinates(district), district.getName(), district.getId());
+            String polygon = String.format(POLYGON_FORMAT, getCoordinates(district), district.getName(), i, DataHolder.getDistricts().get(i).getSumm());
             polygons.append(polygon).append(" \n");
         }
 

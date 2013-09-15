@@ -60,6 +60,25 @@ public class WtlUtilsImpl implements WtlUtils {
     }
 
     @Override
+    public Category getCategoryBySearchParam(String searchparam) {
+        String selection = String.format("%s = '%s'", CategoryColumns.SEARCHPARAM, searchparam);
+        Cursor c = null;
+        Category district = new Category();
+
+        c = mContentResolver.query(CategoryColumns.CONTENT_URI, null, selection, null, null);
+        if (c.moveToFirst()) {
+            district.setId(c.getInt(c.getColumnIndex(DistrictColumns._ID)));
+            district.setName(c.getString(c.getColumnIndex(DistrictColumns.NAME)));
+
+            c.close();
+            return district;
+        }
+
+        c.close();
+        return null;
+    }
+
+    @Override
     public void updateRating(int id, int rating) {
         String where = String.format("%s = '%s'", CategoryColumns._ID, id);
         ContentValues values = new ContentValues();

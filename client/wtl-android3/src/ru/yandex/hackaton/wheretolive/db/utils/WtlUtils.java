@@ -14,6 +14,7 @@ import ru.yandex.hackaton.wheretolive.server.entity.District;
 public interface WtlUtils {
     public Uri insertCategory(Category category);
     public List<Category> getCategories();
+    public Category getCategoryBySearchParam(String searchparam);
     public void updateRating(int id, int rating);
     public void updateRating(String key, int rating);
 
