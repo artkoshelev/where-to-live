@@ -58,6 +58,22 @@ $.fn.serializeObject = function()
 };
 
 
+function drawSerp(data) {
+    var items = [];
+    $('.result').empty();
+
+    $.each(data, function (key, val) {
+        items.push('<li id="' + val.id + '" class="list-group-item">' +
+                '<span class="badge">' + val.summ + '</span> ' + val.districtname +
+                '</li>');
+    });
+
+    $('<ul/>', {
+        'class': 'list-group',
+        html: items.slice(0, 15).join('')
+    }).appendTo('.result');
+}
+
 $(document).ready(function() {
     loadCategories();
 
@@ -72,7 +88,7 @@ $(document).ready(function() {
             url: "/api/districts/search",
             data: JSON.stringify({params: data}),
             success: function (data) {
-                console.log(data);
+                drawSerp(data);
             },
             dataType: "json"
         });
