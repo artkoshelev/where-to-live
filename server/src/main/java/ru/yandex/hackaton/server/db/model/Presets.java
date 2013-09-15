@@ -58,7 +58,7 @@ public class Presets extends BaseModel<Integer> {
     private Integer shops;
 
     @Column(nullable = false)
-    private Integer high_schools;
+    private Integer highschools;
 
     @Column(nullable = false)
     private Integer piknik;
@@ -87,12 +87,20 @@ public class Presets extends BaseModel<Integer> {
         this.shops = shops;
     }
 
-    public Integer getHigh_schools() {
-        return high_schools;
+    public Integer getPresetid() {
+        return presetid;
     }
 
-    public void setHigh_schools(Integer high_schools) {
-        this.high_schools = high_schools;
+    public void setPresetid(Integer presetid) {
+        this.presetid = presetid;
+    }
+
+    public Integer getHighschools() {
+        return highschools;
+    }
+
+    public void setHighschools(Integer highschools) {
+        this.highschools = highschools;
     }
 
     public Integer getPiknik() {
