@@ -13,6 +13,7 @@ public class Category implements Serializable{
 
     private int id;
     private String name;
+    private String searchparam;
     private int rating;
 
     public Category() {
@@ -22,6 +23,7 @@ public class Category implements Serializable{
     public Category(JSONObject o) throws JSONException {
         this.id = o.getInt("id");
         this.name = o.getString("name");
+        this.searchparam = o.getString("searchparam");
     }
 
     public int getId() {
@@ -46,5 +48,13 @@ public class Category implements Serializable{
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public String getSearchparam() {
+        return searchparam;
+    }
+
+    public void setSearchparam(String searchparam) {
+        this.searchparam = searchparam;
     }
 }

@@ -15,6 +15,7 @@ public interface WtlUtils {
     public Uri insertCategory(Category category);
     public List<Category> getCategories();
     public void updateRating(int id, int rating);
+    public void updateRating(String key, int rating);
 
     public Uri insertDistrict(District district);
     public District getDistrictById(int id);

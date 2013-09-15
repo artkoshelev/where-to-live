@@ -14,4 +14,5 @@ public class CategoryColumns implements BaseColumns {
 
     public static final String NAME = "name";
     public static final String RATING = "rating";
+    public static final String SEARCHPARAM = "searchparam";
 }

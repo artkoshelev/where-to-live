@@ -44,8 +44,11 @@ public class CategoryAdapter extends BaseArrayAdapter<Category> {
 
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                WtlUtils.Factory.get(mActivity).updateRating(category.getId(), (int) ratingBar.getRating());
+            public void onRatingChanged(RatingBar ratingBar, float value, boolean fromUser) {
+                if (fromUser) {
+                    WtlUtils.Factory.get(mActivity).updateRating(category.getId(), (int) value);
+                    category.setRating((int) value);
+                }
             }
         });
     }

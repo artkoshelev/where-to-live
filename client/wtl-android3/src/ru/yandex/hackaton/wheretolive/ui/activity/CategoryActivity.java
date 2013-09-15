@@ -50,8 +50,8 @@ public class CategoryActivity extends ListActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
-            case R.id.action_map:
-                MapActivity.show(this);
+            case R.id.action_search:
+                RatingActivity.show(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -61,7 +61,7 @@ public class CategoryActivity extends ListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.wizard_menu, menu);
+        inflater.inflate(R.menu.search_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

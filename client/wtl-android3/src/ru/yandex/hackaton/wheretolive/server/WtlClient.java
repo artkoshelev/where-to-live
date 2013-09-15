@@ -1,13 +1,16 @@
 package ru.yandex.hackaton.wheretolive.server;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 
+import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 
 import ru.yandex.hackaton.wheretolive.server.handlers.BaseJsonHandler;
@@ -40,9 +43,19 @@ public class WtlClient {
                 sClient.get(absoluteUrl, params, handler);
                 break;
             case Post:
+                sClient.addHeader("Content-Type", "application/json");
+//                sClient.addHeader("Accept", "application/json");
                 sClient.post(absoluteUrl, params, handler);
                 break;
         }
+    }
+
+    public static void request(Context context, BaseJsonHandler<?, ?> handler) throws JSONException, UnsupportedEncodingException {
+        final String absoluteUrl = getAbsoluteUrl(handler.getUrl());
+        StringEntity entity = new StringEntity(handler.getRequest().toString());
+        Log.i("WtlClient", MessageFormat.format("URL: {0}\nRequest:{1}", absoluteUrl, entity.toString()));
+
+        sClient.post(context, absoluteUrl, entity, "application/json", handler);
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {

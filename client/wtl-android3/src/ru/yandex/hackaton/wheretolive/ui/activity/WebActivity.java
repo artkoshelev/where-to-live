@@ -6,12 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.Window;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,15 +29,17 @@ import ru.yandex.hackaton.wheretolive.server.entity.District;
  */
 public class WebActivity extends Activity {
     private static final String POLYGON_FORMAT = "var myPolygon = new ymaps.Polygon(%s{\n" +
-            "        hintContent: \"Многоугольник\"\n" +
+            "        balloonContent: '<p>\"%s\"</p>'+\n" +
+            "'<button onclick=\"showInfo(%s)\">Подробнее</button>'\n" +
             "    }, {\n" +
             "        fillColor: '#00FF0088',\n" +
-            "        strokeWidth: 5\n" +
+            "        strokeWidth: 2\n" +
             "    });\n" +
             "    myMap.geoObjects.add(myPolygon);";
 
-    public static void show(Context context) {
+    public static void show(Context context, int[] districtIds) {
         Intent i = new Intent(context, WebActivity.class);
+        i.putExtra("districtIds", districtIds);
         context.startActivity(i);
     }
 
@@ -46,6 +50,8 @@ public class WebActivity extends Activity {
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
         setContentView(R.layout.web_activity);
 
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
         WebView webView = (WebView) findViewById(R.id.webView);
         webView.setWebChromeClient(new WebChromeClient());
         webView.setWebViewClient(new WebViewClient());
@@ -55,16 +61,18 @@ public class WebActivity extends Activity {
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setPluginState(WebSettings.PluginState.ON);
-
+        webView.addJavascriptInterface(new WebAppInterface(this), "Android");
 
         StringBuilder polygons = new StringBuilder();
-        for (int i = 1; i < 125; i++) {
-            District district = WtlUtils.Factory.get(this).getDistrictById(i);
-            String polygon = String.format(POLYGON_FORMAT, getCoordinates(district));
+        int districtsId[] = getIntent().getIntArrayExtra("districtIds");
+        for (int i = 0; i < districtsId.length; i++) {
+            District district = WtlUtils.Factory.get(this).getDistrictById(districtsId[i]);
+            String polygon = String.format(POLYGON_FORMAT, getCoordinates(district), district.getName(), district.getId());
             polygons.append(polygon).append(" \n");
         }
 
         String data = String.format(readRawTextFile(this, R.raw.polygon), polygons.toString());
+
 
         webView.loadDataWithBaseURL("blarg://ignored", data, "text/html", "UTF-8", "");
     }
@@ -109,20 +117,29 @@ public class WebActivity extends Activity {
         return sb.toString();
     }
 
-    private static class JavaScriptInterface {
+    public class WebAppInterface {
         Context mContext;
-        District mDistrict;
 
-        public JavaScriptInterface(Context c, District d) {
+        /** Instantiate the interface and set the context */
+        WebAppInterface(Context c) {
             mContext = c;
-            mDistrict = d;
         }
 
-
+        /** Show a toast from the web page */
         @JavascriptInterface
-        public String getName() {
-            return mDistrict.getName();
+        public void showInfo(String id) {
+            InfoActivity.show(WebActivity.this, Integer.parseInt(id));
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

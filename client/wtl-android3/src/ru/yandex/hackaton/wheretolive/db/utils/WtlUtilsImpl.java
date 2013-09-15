@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +26,14 @@ public class WtlUtilsImpl implements WtlUtils {
 
     @Override
     public Uri insertCategory(Category category) {
+        if (isExist(CategoryColumns.CONTENT_URI, String.valueOf(category.getId()))) {
+            return null;
+        }
+
         ContentValues values = new ContentValues();
+        values.put(CategoryColumns._ID, category.getId());
         values.put(CategoryColumns.NAME, category.getName());
+        values.put(CategoryColumns.SEARCHPARAM, category.getSearchparam());
 
         return mContentResolver.insert(CategoryColumns.CONTENT_URI, values);
     }
@@ -41,6 +48,7 @@ public class WtlUtilsImpl implements WtlUtils {
             Category category = new Category();
             category.setId(c.getInt(c.getColumnIndex(CategoryColumns._ID)));
             category.setName(c.getString(c.getColumnIndex(CategoryColumns.NAME)));
+            category.setSearchparam(c.getString(c.getColumnIndex(CategoryColumns.SEARCHPARAM)));
             category.setRating(c.getInt(c.getColumnIndex(CategoryColumns.RATING)));
             trackList.add(category);
 
@@ -61,8 +69,22 @@ public class WtlUtilsImpl implements WtlUtils {
     }
 
     @Override
-    public Uri insertDistrict(District district) {
+    public void updateRating(String key, int rating) {
+        String where = String.format("%s = '%s'", CategoryColumns.SEARCHPARAM, key);
         ContentValues values = new ContentValues();
+        values.put(CategoryColumns.RATING, rating);
+
+        mContentResolver.update(CategoryColumns.CONTENT_URI, values, where, null);
+    }
+
+    @Override
+    public Uri insertDistrict(District district) {
+        if (isExist(DistrictColumns.CONTENT_URI, String.valueOf(district.getId()))) {
+            return null;
+        }
+
+        ContentValues values = new ContentValues();
+        values.put(DistrictColumns._ID, district.getId());
         values.put(DistrictColumns.NAME, district.getName());
         values.put(DistrictColumns.BORDERS, district.getBorders());
 
@@ -87,5 +109,11 @@ public class WtlUtilsImpl implements WtlUtils {
 
         c.close();
         return null;
+    }
+
+    private boolean isExist(Uri contentUri, String id) {
+        Cursor c = mContentResolver.query(contentUri, null, BaseColumns._ID + " = " + id, null, null);
+
+        return c.getCount() > 0;
     }
 }

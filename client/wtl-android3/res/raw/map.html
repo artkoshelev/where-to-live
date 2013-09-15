@@ -1,45 +1,86 @@
+
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Примеры. Размещение карты на странице.</title>
-        <!--
-            Подключаем API карт
-            Параметры:
-              - load=package.standard - основные компоненты;
-              - lang=ru-RU - язык русский.
-        -->
-        <script src="http://api-maps.yandex.ru/2.0/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
 
-        <script type="text/javascript">
-            var myMap;
+<head>
+    <title>Примеры. Свойства события. Координаты щелчка</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="http://api-maps.yandex.ru/2.0/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
 
-            // Дождёмся загрузки API и готовности DOM.
-            ymaps.ready(init);
+    <script type="text/javascript">
+ymaps.ready(init);
+var myMap;
+function myFunction()
+{
+ alert('asdfasdf');
+}
 
-            function init () {
-            // Создание экземпляра карты и его привязка к контейнеру с
-            // заданным id ("map").
-            myMap = new ymaps.Map('map', {
-            // При инициализации карты обязательно нужно указать
-            // её центр и коэффициент масштабирования.
-            center:[55.76, 37.64], // Москва
-            zoom:10
-            });
+function init () {
+    myMap = new ymaps.Map("map", {
+        center: [57.5262, 38.3061], // Углич
+        zoom: 11
+    }, {
+        balloonMaxWidth: 200
+    });
 
-            document.getElementById('destroyButton').onclick = function () {
-            // Для уничтожения используется метод destroy.
-            myMap.destroy();
-            };
+    var myPolygon = new ymaps.Polygon([
+[
+[55.887768, 37.567312],
+[55.887729, 37.569034],
+[55.887421, 37.569968],
+[55.887391, 37.573336],
+[55.887014, 37.578540],
+[55.886056, 37.578738],
+[55.885588, 37.579640],
+[55.885621, 37.582059],
+[55.885980, 37.584253],
+[55.885875, 37.584387],
+[55.886110, 37.585734],
+[55.886146, 37.586592],
+[55.887139, 37.586706],
+[55.887124, 37.593165],
+[55.886823, 37.595418],
+[55.886413, 37.596877],
+[55.885376, 37.598980],
+[55.882903, 37.602735],
+[55.881516, 37.604066],
+[55.880563, 37.605332],
+[55.880129, 37.606147],
+[55.879297, 37.607263],
+[55.878404, 37.602864],
+[55.875606, 37.589882],
+[55.874798, 37.586234],
+[55.872626, 37.585977],
+[55.869248, 37.585011],
+[55.870153, 37.583316],
+[55.869803, 37.576621],
+[55.870491, 37.575634],
+[55.871166, 37.572888],
+[55.870780, 37.571107],
+[55.875147, 37.569261],
+[55.877789, 37.568188],
+[55.879598, 37.567931],
+[55.881203, 37.567931],
+[55.884170, 37.567652],
+[55.886847, 37.567330],
+[55.887769, 37.567309]
 
-            }
-        </script>
-    </head>
+]
+], {
+        balloonContent: '<p>Алтуфьевский</p>' +
+                        '<button onclick="myFunction()">Подробнее</button>'
+    }, {
+        fillColor: '#00FF0088',
+        strokeWidth: 2
+    });
+    myMap.geoObjects.add(myPolygon); 
+}
+</script>
+</head>
 
-    <body>
-        <div id="map" style="width:400px; height:300px"></div>
-        <input type="button" id="destroyButton" value="Удалить карту"/>
-    </body>
+<body>
+<div id="map" style="width:400px; height:300px"></div>
+</body>
 
 </html>
