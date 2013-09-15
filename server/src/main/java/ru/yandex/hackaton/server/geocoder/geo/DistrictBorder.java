@@ -23,7 +23,7 @@ public class DistrictBorder {
         List<Point> f = line.points();
 
         Path2D path = new Path2D.Double();
-        path.moveTo(f.get(1).x(), f.get(1).y());
+        path.moveTo(f.get(0).x(), f.get(0).y());
         for (Point point : f.subList(1, f.size())) {
             path.lineTo(point.x(), point.y());
         }
@@ -35,7 +35,7 @@ public class DistrictBorder {
         return area.intersects(r);
     }
 
-    private boolean contains(Point point) {
+    public boolean contains(Point point) {
         return area.contains(point.x(), point.y());
     }
 

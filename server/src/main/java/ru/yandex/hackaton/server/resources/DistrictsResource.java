@@ -8,6 +8,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.persistence.EntityManager;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 import com.codahale.dropwizard.hibernate.UnitOfWork;
@@ -40,6 +42,10 @@ import ru.yandex.hackaton.server.db.model.NightSchool;
 import ru.yandex.hackaton.server.db.model.Parks;
 import ru.yandex.hackaton.server.db.model.PreSchool;
 import ru.yandex.hackaton.server.db.model.WiFi;
+import org.hibernate.Query;
+import org.hibernate.internal.SQLQueryImpl;
+import ru.yandex.hackaton.server.db.dao.*;
+import ru.yandex.hackaton.server.db.model.*;
 
 /**
  * @author Sergey Polovko
@@ -76,7 +82,13 @@ public class DistrictsResource {
     @Inject
     private WiFiDao wiFiDao;
     @Inject
+    private ShopsDao shopsDao;
+    @Inject
     private DistrictsSummaryDao districtsSummaryDao;
+    @Inject
+    private PiknikDao piknikDao;
+    @Inject
+    private HighSchoolsDao highSchoolsDao;
 
     @GET
     @UnitOfWork
@@ -95,8 +107,7 @@ public class DistrictsResource {
     @UnitOfWork
     @Path("search")
     public List<DistrictsSummary> getSearchResult(SearchParams params) {
-        System.out.println(params.getParams());
-        return districtsSummaryDao.findAll();
+        return districtsSummaryDao.find(params);
     }
 
     @GET
@@ -104,6 +115,13 @@ public class DistrictsResource {
     @Path("hospitals")
     public List<Hospital> getHospitals() {
         return hospitalsDao.findAll();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("shops")
+    public List<Shops> getShops() {
+        return shopsDao.findAll();
     }
 
     @GET
@@ -181,5 +199,19 @@ public class DistrictsResource {
     @Path("fountains")
     public List<Fountain> getFountains() {
         return fountainDao.findAll();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("piknik")
+    public List<Piknik> getPiknik() {
+        return piknikDao.findAll();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("highschool")
+    public List<HighSchool> getHighSchool() {
+        return highSchoolsDao.findAll();
     }
 }

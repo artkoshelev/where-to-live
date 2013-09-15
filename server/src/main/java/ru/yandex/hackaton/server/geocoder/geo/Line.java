@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.sun.deploy.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
 /**
@@ -48,10 +48,10 @@ public class Line {
     }
 
     public static Line parseGml(String gml) {
-        String[] coordinatesList = StringUtils.splitString(gml, ",");
+        String[] coordinatesList = StringUtils.split(gml, ",");
         Validate.isTrue(coordinatesList.length > 0);
 
-        List<Point> points = new ArrayList<>();
+        List<Point> points = new ArrayList<>(coordinatesList.length);
         for (String coordinates : coordinatesList) {
             points.add(Point.parseGml(coordinates));
         }
@@ -60,10 +60,10 @@ public class Line {
     }
 
     public static Line parseWkt(String wkt) {
-        String[] coordinatesList = StringUtils.splitString(wkt, ",");
+        String[] coordinatesList = StringUtils.split(wkt, ",");
         Validate.isTrue(coordinatesList.length > 0);
 
-        List<Point> points = new ArrayList<>();
+        List<Point> points = new ArrayList<>(coordinatesList.length);
         for (String coordinates : coordinatesList) {
             points.add(Point.parseWkt(coordinates));
         }

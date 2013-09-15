@@ -1,11 +1,18 @@
+// Add Gradle OneJar Plugin, see https://github.com/rholder/gradle-one-jar
+buildscript {
+    repositories { mavenCentral() }
+    dependencies { classpath "org.jamel.pkg4j:pkg4j-gradle:0.0.5" }
+}
+
 group = "ru.yandex.hackaton"
-version = "0.0.1"
+version = "0.0.2"
 description = "Where To Live"
 
 apply from: "libs.gradle"
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: "pkg4j"
 
 compileJava.options.encoding = "UTF-8"
 
@@ -18,10 +25,10 @@ repositories {
 
 dependencies {
     compile libraries.dropwizard_core
-    compile libraries.dropwizard_auth
     compile libraries.dropwizard_guice
     compile libraries.dropwizard_hibernate
     compile libraries.dropwizard_testing
+    compile libraries.dropwizard_assets
     compile libraries.commons_lang
     compile libraries.httpcomponents
     compile libraries.jsoup
@@ -32,7 +39,7 @@ dependencies {
 // The main class of the application
 mainClassName = 'ru.yandex.hackaton.server.WtlApplication'
 run {
-    args 'server', '../etc/wtl-server.dev.yaml'
+    args 'server', 'etc/wtl-server.dev.yaml'
 }
 
 defaultTasks "clean", "build"
@@ -41,3 +48,34 @@ defaultTasks "clean", "build"
 task wrapper(type: Wrapper) {
     gradleVersion = '1.7'
 }
+
+// OS specific package description
+pkg {
+    author = "Sergey Polovko <sergey@polovko.me>"
+    section = "wtl"
+    name = "wtl-server"
+    description = "Where to Live server."
+    changes = "src/pkg/changes.txt"
+
+    dirs {  }
+
+    dirs {
+        pack dir: "src/pkg/etc", prefix: "/etc", mode: "744"
+        pack dir: "src/pkg/bin", prefix: "/usr/lib/wtl/server/bin", mode: "755"
+        pack dir: "build/libs",  prefix: "/usr/lib/wtl/server/libs"
+        create "/var/log/wtl", owner: "deployer"
+    }
+
+    postinst { exec "update-rc.d wtl defaults 90 20" }
+    prerm    { exec "update-rc.d -f wtl remove" }
+}
+
+// copy all runtime dependencies to build/libs folder
+task prepareRuntime(type: Copy, dependsOn: "build") {
+    from configurations.runtime
+    into "$buildDir/libs"
+}
+
+// "deb" is shortcut name of buildDeb which invokes prepareRuntime before run
+task deb(type: org.jamel.pkg4j.gradle.tasks.BuildDebTask, dependsOn: prepareRuntime)
+

@@ -1,6 +1,7 @@
 package ru.yandex.hackaton.server;
 
 import com.codahale.dropwizard.Application;
+import com.codahale.dropwizard.assets.AssetsBundle;
 import com.codahale.dropwizard.cli.Command;
 import com.codahale.dropwizard.setup.Bootstrap;
 import com.codahale.dropwizard.setup.Environment;
@@ -34,6 +35,7 @@ public class WtlApplication extends Application<WtlConfiguration> {
     public void initialize(Bootstrap<WtlConfiguration> bootstrap) {
         DbBundle dbBundle = new DbBundle();
         bootstrap.addBundle(dbBundle);
+        bootstrap.addBundle(new AssetsBundle("/assets", "/", "index.html"));
 
         GuiceBundle<WtlConfiguration> guiceBundle = GuiceBundle.<WtlConfiguration>newBuilder()
                 .addModule(new DbModule(dbBundle))
@@ -50,6 +52,8 @@ public class WtlApplication extends Application<WtlConfiguration> {
 
     @Override
     public void run(WtlConfiguration configuration, Environment environment) throws Exception {
+        environment.jersey().setUrlPattern("/api/*");
+
         for (Command command : commands) {
             injector.injectMembers(command);
         }

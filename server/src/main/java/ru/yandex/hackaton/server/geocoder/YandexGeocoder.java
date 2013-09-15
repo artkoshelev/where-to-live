@@ -6,6 +6,7 @@ import java.nio.charset.Charset;
 
 import javax.inject.Singleton;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -37,9 +38,12 @@ public class YandexGeocoder {
 
     private static GeoInfo parseGeoInfo(InputStream content, Charset charset) throws IOException {
         Document document = Jsoup.parse(content, charset.name(), "");
-        String[] pos = document.getElementsByTag("pos").text().split(" ");
-        double lon = Double.parseDouble(pos[0]);
-        double lat = Double.parseDouble(pos[1]);
+        String pos = document.getElementsByTag("pos").text();
+        if (StringUtils.isBlank(pos)) return GeoInfo.empty();
+
+        String[] posA = pos.split(" ");
+        double lon = Double.parseDouble(posA[0]);
+        double lat = Double.parseDouble(posA[1]);
         String address = document.getElementsByTag("AddressLine").text();
         return new GeoInfo(address, new Point(lon, lat));
     }

@@ -1,0 +1,2 @@
+release date=22:10 09.14.2013,version=0.0.1
+ * add packaging service to .deb
