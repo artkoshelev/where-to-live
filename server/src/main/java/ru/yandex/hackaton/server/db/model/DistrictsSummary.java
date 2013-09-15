@@ -11,7 +11,7 @@ import javax.persistence.Table;
  * @author Sergey Polovko
  */
 @Entity
-@Table(name = "districts_summary")
+@Table(name = "districtssummary")
 public class DistrictsSummary extends BaseModel<Integer> {
 
     @Id
@@ -22,13 +22,13 @@ public class DistrictsSummary extends BaseModel<Integer> {
     private String districtname;
 
     @Column
-    private Integer child_polyclinic;
+    private Integer childpolyclinic;
 
     @Column
-    private Integer child_teeth_polyclinic;
+    private Integer childteethpolyclinic;
 
     @Column
-    private Integer city_polyclinic;
+    private Integer citypolyclinic;
 
     @Column
     private Integer dispensary;
@@ -43,13 +43,13 @@ public class DistrictsSummary extends BaseModel<Integer> {
     private Integer hospitals;
 
     @Column
-    private Integer night_schools;
+    private Integer nightschools;
 
     @Column
     private Integer parks;
 
     @Column
-    private Integer pre_schools;
+    private Integer preschools;
 
     @Column
     private Integer fountains;
@@ -67,7 +67,7 @@ public class DistrictsSummary extends BaseModel<Integer> {
     private Integer piknik;
 
     @Column
-    private Integer bus_stops;
+    private Integer busstops;
 
     @Column
     private Integer libraries;
@@ -94,28 +94,36 @@ public class DistrictsSummary extends BaseModel<Integer> {
         this.id = id;
     }
 
-    public Integer getChild_polyclinic() {
-        return child_polyclinic;
+    public String getDistrictname() {
+        return districtname;
     }
 
-    public void setChild_polyclinic(Integer child_polyclinic) {
-        this.child_polyclinic = child_polyclinic;
+    public void setDistrictname(String districtname) {
+        this.districtname = districtname;
     }
 
-    public Integer getChild_teeth_polyclinic() {
-        return child_teeth_polyclinic;
+    public Integer getChildpolyclinic() {
+        return childpolyclinic;
     }
 
-    public void setChild_teeth_polyclinic(Integer child_teeth_polyclinic) {
-        this.child_teeth_polyclinic = child_teeth_polyclinic;
+    public void setChildpolyclinic(Integer childpolyclinic) {
+        this.childpolyclinic = childpolyclinic;
     }
 
-    public Integer getCity_polyclinic() {
-        return city_polyclinic;
+    public Integer getChildteethpolyclinic() {
+        return childteethpolyclinic;
     }
 
-    public void setCity_polyclinic(Integer city_polyclinic) {
-        this.city_polyclinic = city_polyclinic;
+    public void setChildteethpolyclinic(Integer childteethpolyclinic) {
+        this.childteethpolyclinic = childteethpolyclinic;
+    }
+
+    public Integer getCitypolyclinic() {
+        return citypolyclinic;
+    }
+
+    public void setCitypolyclinic(Integer citypolyclinic) {
+        this.citypolyclinic = citypolyclinic;
     }
 
     public Integer getDispensary() {
@@ -150,12 +158,12 @@ public class DistrictsSummary extends BaseModel<Integer> {
         this.hospitals = hospitals;
     }
 
-    public Integer getNight_schools() {
-        return night_schools;
+    public Integer getNightschools() {
+        return nightschools;
     }
 
-    public void setNight_schools(Integer night_schools) {
-        this.night_schools = night_schools;
+    public void setNightschools(Integer nightschools) {
+        this.nightschools = nightschools;
     }
 
     public Integer getParks() {
@@ -166,12 +174,12 @@ public class DistrictsSummary extends BaseModel<Integer> {
         this.parks = parks;
     }
 
-    public Integer getPre_schools() {
-        return pre_schools;
+    public Integer getPreschools() {
+        return preschools;
     }
 
-    public void setPre_schools(Integer pre_schools) {
-        this.pre_schools = pre_schools;
+    public void setPreschools(Integer preschools) {
+        this.preschools = preschools;
     }
 
     public Integer getFountains() {
@@ -214,6 +222,22 @@ public class DistrictsSummary extends BaseModel<Integer> {
         this.piknik = piknik;
     }
 
+    public Integer getBusstops() {
+        return busstops;
+    }
+
+    public void setBusstops(Integer busstops) {
+        this.busstops = busstops;
+    }
+
+    public Integer getLibraries() {
+        return libraries;
+    }
+
+    public void setLibraries(Integer libraries) {
+        this.libraries = libraries;
+    }
+
     public BigDecimal getSumm() {
         return summ;
     }
@@ -230,27 +254,4 @@ public class DistrictsSummary extends BaseModel<Integer> {
         this.size = size;
     }
 
-    public Integer getBus_stops() {
-        return bus_stops;
-    }
-
-    public void setBus_stops(Integer bus_stops) {
-        this.bus_stops = bus_stops;
-    }
-
-    public Integer getLibraries() {
-        return libraries;
-    }
-
-    public void setLibraries(Integer libraries) {
-        this.libraries = libraries;
-    }
-
-    public String getDistrictname() {
-        return districtname;
-    }
-
-    public void setDistrictname(String districtname) {
-        this.districtname = districtname;
-    }
 }

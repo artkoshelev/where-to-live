@@ -30,15 +30,16 @@ public class DistrictsSummaryDao extends CrudDao<DistrictsSummary> {
     }
 
     private Query toQuery(SearchParams params) {
-        String query = "SELECT " + getColumns(params) + " FROM districts_summary ORDER BY summ DESC";
+        String query = "SELECT " + getColumns(params) + " FROM districtssummary ORDER BY summ DESC";
         System.out.println(query);
         return currentSession().createSQLQuery(query)
                 .setResultTransformer(Transformers.aliasToBean(DistrictsSummary.class));
     }
 
     public String getColumns(SearchParams params) {
-        StringBuffer result = new StringBuffer("districts_summary.districtid, districts_summary.districtname");
+        StringBuffer result = new StringBuffer("districtssummary.districtid, districtssummary.districtname");
         boolean hasParams = false;
+        System.out.println(params.getParams());
         for (String param : params.getParams().keySet()) {
             if (params.getParams().get(param) != 0) {
                 result.append(", " + param);
@@ -59,7 +60,7 @@ public class DistrictsSummaryDao extends CrudDao<DistrictsSummary> {
         }
 
         String res = result.substring(0, result.length() - 3);
-        res += ") * districts_summary.size * 1.0";
+        res += ") * districtssummary.size * 1.0";
         res += " as summ";
 
         return res;

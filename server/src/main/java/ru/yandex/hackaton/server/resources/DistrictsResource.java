@@ -151,21 +151,21 @@ public class DistrictsResource {
 
     @GET
     @UnitOfWork
-    @Path("child_polyclinic")
+    @Path("childpolyclinic")
     public List<ChildPolyclinic> getChildPolyclinic() {
         return childPolyclinicDao.findAll();
     }
 
     @GET
     @UnitOfWork
-    @Path("child_teeth_polyclinic")
+    @Path("childteethpolyclinic")
     public List<ChildTeethPolyclinic> getChildTeethPolyclinic() {
         return childTeethPolyclinicDao.findAll();
     }
 
     @GET
     @UnitOfWork
-    @Path("city_polyclinic")
+    @Path("citypolyclinic")
     public List<CityPolyclinic> getCityPolyclinic() {
         return cityPolyclinicDao.findAll();
     }
@@ -200,7 +200,7 @@ public class DistrictsResource {
 
     @GET
     @UnitOfWork
-    @Path("night_schools")
+    @Path("nightschools")
     public List<NightSchool> getNightSchools() {
         return nightSchoolsDao.findAll();
     }
@@ -242,7 +242,7 @@ public class DistrictsResource {
 
     @GET
     @UnitOfWork
-    @Path("bus_stops")
+    @Path("busstops")
     public List<BusStop> getBusStops() {
         return busStopsDao.findAll();
     }
