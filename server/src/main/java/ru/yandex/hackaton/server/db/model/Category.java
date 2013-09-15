@@ -20,6 +20,9 @@ public class Category extends BaseModel<Integer> {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String searchparam;
+
     @Override
     public Integer getId() {
         return id;
@@ -36,5 +39,13 @@ public class Category extends BaseModel<Integer> {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSearchparam() {
+        return searchparam;
+    }
+
+    public void setSearchparam(String searchparam) {
+        this.searchparam = searchparam;
     }
 }
