@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.codahale.dropwizard.hibernate.UnitOfWork;
 
+import com.google.common.base.Optional;
 import ru.yandex.hackaton.server.db.dao.ChildPolyclinicDao;
 import ru.yandex.hackaton.server.db.dao.ChildTeethPolyclinicDao;
 import ru.yandex.hackaton.server.db.dao.CityPolyclinicDao;
@@ -101,6 +102,18 @@ public class DistrictsResource {
     }
 
     @GET
+    @Path("{id}")
+    @UnitOfWork
+    public District getDistrict(@PathParam("id") int id ) {
+        Optional<District> byId = districtsDao.findById(id);
+        if (byId.isPresent()) {
+            return byId.get();
+        }
+        throw new WebApplicationException(404);
+    }
+
+
+    @GET
     @UnitOfWork
     @Path("summary")
     public List<DistrictsSummary> getSummary() {
@@ -112,7 +125,6 @@ public class DistrictsResource {
     @Path("search")
     public List<DistrictsSummary> getSearchResult(SearchParams params) {
         List<DistrictsSummary> res = districtsSummaryDao.find(params);
-        System.out.println(res.size());
         return res;
     }
 

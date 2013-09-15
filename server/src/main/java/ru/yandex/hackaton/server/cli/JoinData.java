@@ -91,8 +91,8 @@ public class JoinData extends AbstractDbCommand {
 //        joinToDistrictsFrom(shopsDao);
 //        joinToDistrictsFrom(piknikDao);
 //        joinToDistrictsFrom(highSchoolsDao);
-        joinToDistrictsFrom(busStopsDao);
-        joinToDistrictsFrom(librariesDao);
+//        joinToDistrictsFrom(busStopsDao);
+//        joinToDistrictsFrom(librariesDao);
     }
 
     private void loadDistrictsIds() {
