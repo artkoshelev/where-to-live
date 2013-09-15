@@ -110,7 +110,7 @@ public class DistrictsResource {
     }
 
     @GET
-    @Path("{id}/poligon")
+    @Path("{id}/polygon")
     @UnitOfWork
     public DistrictPolygon getDistrictWrapper(@PathParam("id") int id ) {
         Optional<District> byId = districtsDao.findById(id);
