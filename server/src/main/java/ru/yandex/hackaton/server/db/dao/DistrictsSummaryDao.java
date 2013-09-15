@@ -32,7 +32,7 @@ public class DistrictsSummaryDao extends CrudDao<DistrictsSummary> {
         BigDecimal summaryMax = result.get(0).getSumm();
         if (summaryMax.floatValue() > 0) {
             for(DistrictsSummary ds : result) {
-                ds.setSumm(ds.getSumm().multiply(BigDecimal.valueOf(100)).divide(summaryMax, 2, RoundingMode.HALF_UP));
+                ds.setSumm(ds.getSumm().multiply(BigDecimal.valueOf(100)).divide(summaryMax, 0, RoundingMode.HALF_UP));
             }
         }
         return result;
