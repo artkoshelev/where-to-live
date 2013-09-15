@@ -1,5 +1,6 @@
 package ru.yandex.hackaton.server.resources;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -118,6 +119,22 @@ public class DistrictsResource {
             return new DistrictPolygon(byId.get());
         }
         throw new WebApplicationException(404);
+    }
+
+    @GET
+    @Path("{ids}/polygons")
+    @UnitOfWork
+    public Object getDistrictWrapper(@PathParam("ids") String ids ) {
+        String[] list = ids.split(",");
+        if (list.length == 1) {
+            return getDistrictWrapper(Integer.parseInt(list[0]));
+        } else {
+            List<DistrictPolygon> res = new ArrayList<>();
+            for (String id : list) {
+                res.add(getDistrictWrapper(Integer.parseInt(id)));
+            }
+            return res;
+        }
     }
 
     @GET
