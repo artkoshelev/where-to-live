@@ -8,7 +8,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.persistence.EntityManager;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -43,8 +42,6 @@ import ru.yandex.hackaton.server.db.model.NightSchool;
 import ru.yandex.hackaton.server.db.model.Parks;
 import ru.yandex.hackaton.server.db.model.PreSchool;
 import ru.yandex.hackaton.server.db.model.WiFi;
-import org.hibernate.Query;
-import org.hibernate.internal.SQLQueryImpl;
 import ru.yandex.hackaton.server.db.dao.*;
 import ru.yandex.hackaton.server.db.model.*;
 
@@ -112,6 +109,16 @@ public class DistrictsResource {
         throw new WebApplicationException(404);
     }
 
+    @GET
+    @Path("{id}/poligon")
+    @UnitOfWork
+    public DistrictPolygon getDistrictWrapper(@PathParam("id") int id ) {
+        Optional<District> byId = districtsDao.findById(id);
+        if (byId.isPresent()) {
+            return new DistrictPolygon(byId.get());
+        }
+        throw new WebApplicationException(404);
+    }
 
     @GET
     @UnitOfWork
