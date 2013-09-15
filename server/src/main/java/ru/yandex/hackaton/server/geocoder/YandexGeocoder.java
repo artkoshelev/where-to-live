@@ -9,6 +9,7 @@ import javax.inject.Singleton;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import ru.yandex.hackaton.server.geocoder.data.GeoInfo;
 import ru.yandex.hackaton.server.geocoder.geo.Point;
@@ -38,14 +39,15 @@ public class YandexGeocoder {
 
     private static GeoInfo parseGeoInfo(InputStream content, Charset charset) throws IOException {
         Document document = Jsoup.parse(content, charset.name(), "");
-        String pos = document.getElementsByTag("pos").text();
+        Elements tags = document.getElementsByTag("pos");
+        if (tags.isEmpty()) return GeoInfo.empty();
+
+        String pos = tags.first().text();
         if (StringUtils.isBlank(pos)) return GeoInfo.empty();
 
-        String[] posA = pos.split(" ");
-        double lon = Double.parseDouble(posA[0]);
-        double lat = Double.parseDouble(posA[1]);
         String address = document.getElementsByTag("AddressLine").text();
-        return new GeoInfo(address, new Point(lon, lat));
+        Point point = Point.parseGml(pos);
+        return new GeoInfo(address, point);
     }
 
     public GeoInfo geocode(String address) {

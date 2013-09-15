@@ -12,14 +12,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ru.yandex.hackaton.server.WtlConfiguration;
-import ru.yandex.hackaton.server.db.dao.*;
+import ru.yandex.hackaton.server.db.dao.ChildPolyclinicDao;
+import ru.yandex.hackaton.server.db.dao.ChildTeethPolyclinicDao;
+import ru.yandex.hackaton.server.db.dao.CityPolyclinicDao;
+import ru.yandex.hackaton.server.db.dao.CrudDao;
+import ru.yandex.hackaton.server.db.dao.DispensaryDao;
+import ru.yandex.hackaton.server.db.dao.DistrictsDao;
+import ru.yandex.hackaton.server.db.dao.DrugsDao;
+import ru.yandex.hackaton.server.db.dao.ElementariesDao;
+import ru.yandex.hackaton.server.db.dao.FountainDao;
+import ru.yandex.hackaton.server.db.dao.HighSchoolsDao;
+import ru.yandex.hackaton.server.db.dao.HospitalsDao;
+import ru.yandex.hackaton.server.db.dao.NightSchoolsDao;
+import ru.yandex.hackaton.server.db.dao.ParksDao;
+import ru.yandex.hackaton.server.db.dao.PiknikDao;
+import ru.yandex.hackaton.server.db.dao.PreSchoolsDao;
+import ru.yandex.hackaton.server.db.dao.ShopsDao;
+import ru.yandex.hackaton.server.db.dao.WiFiDao;
 import ru.yandex.hackaton.server.db.model.CategoryInfo;
 import ru.yandex.hackaton.server.db.model.District;
 import ru.yandex.hackaton.server.geocoder.YandexGeocoder;
 import ru.yandex.hackaton.server.geocoder.data.GeoInfo;
 import ru.yandex.hackaton.server.geocoder.geo.DistrictBorder;
 import ru.yandex.hackaton.server.geocoder.geo.Point;
-import ru.yandex.hackaton.server.geocoder.gridhash.GridHash;
 
 /**
  * @author Sergey Polovko
@@ -28,7 +43,6 @@ public class JoinData extends AbstractDbCommand {
 
     private static final Logger logger = LoggerFactory.getLogger(JoinData.class);
 
-    private final GridHash<Integer> districtsGeoHash = new GridHash<>(new Point(0, 0), 0.01, 0.01);
     private Map<Integer, DistrictBorder> districtsIds;
 
     @Inject
@@ -72,7 +86,6 @@ public class JoinData extends AbstractDbCommand {
 
     @Override
     protected void run(Environment environment, Namespace namespace, WtlConfiguration configuration) throws Exception {
-        loadDistrictsGridHash();
         loadDistrictsIds();
 
 //        joinToDistrictsFrom(hospitalsDao);
@@ -109,16 +122,6 @@ public class JoinData extends AbstractDbCommand {
             if (entry.getValue().contains(point)) return entry.getKey();
         }
         return null;
-    }
-
-    private void loadDistrictsGridHash() {
-        doInSession(new Block() {
-            public void apply() {
-                for (District district : districtsDao.findAll()) {
-                    districtsGeoHash.add(new DistrictBorder(district.getWktLine()), district.getId());
-                }
-            }
-        });
     }
 
     private <T extends CategoryInfo> void joinToDistrictsFrom(final CrudDao<T> dao) {

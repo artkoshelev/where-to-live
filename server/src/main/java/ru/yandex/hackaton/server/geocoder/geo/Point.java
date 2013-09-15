@@ -13,23 +13,23 @@ import org.apache.commons.lang3.Validate;
 public class Point {
 
     @JsonProperty("x")
-    private final double lon;
-    @JsonProperty("y")
     private final double lat;
+    @JsonProperty("y")
+    private final double lon;
 
 
     @JsonCreator
-    public Point(@JsonProperty("x") double lon, @JsonProperty("y") double lat) {
-        this.lon = lon;
+    public Point(@JsonProperty("x") double lat, @JsonProperty("y") double lon) {
         this.lat = lat;
-    }
-
-    public double getLon() {
-        return lon;
+        this.lon = lon;
     }
 
     public double getLat() {
         return lat;
+    }
+
+    public double getLon() {
+        return lon;
     }
 
     public double x() {
@@ -62,7 +62,7 @@ public class Point {
 
     public static Point parseGml(String gmlPos) {
         String[] coordinates = StringUtils.split(gmlPos, " ");
-        Validate.isTrue(coordinates.length == 2);
+        Validate.isTrue(coordinates.length == 2, "can't parse '" + gmlPos + "'");
         return parseCoordinates(coordinates[1], coordinates[0]);
     }
 
@@ -72,7 +72,7 @@ public class Point {
 
     public static Point parseWkt(String wktPart) {
         String[] coordinates = StringUtils.split(wktPart, " ");
-        Validate.isTrue(coordinates.length == 2);
+        Validate.isTrue(coordinates.length == 2, "can't parse '" + wktPart + "'");
         return parseCoordinates(coordinates[0], coordinates[1]);
     }
 
