@@ -19,7 +19,6 @@ import ru.yandex.hackaton.server.geocoder.YandexGeocoder;
 import ru.yandex.hackaton.server.geocoder.data.GeoInfo;
 import ru.yandex.hackaton.server.geocoder.geo.DistrictBorder;
 import ru.yandex.hackaton.server.geocoder.geo.Point;
-import ru.yandex.hackaton.server.geocoder.gridhash.GridHash;
 
 /**
  * @author Sergey Polovko
@@ -28,7 +27,6 @@ public class JoinData extends AbstractDbCommand {
 
     private static final Logger logger = LoggerFactory.getLogger(JoinData.class);
 
-    private final GridHash<Integer> districtsGeoHash = new GridHash<>(new Point(0, 0), 0.01, 0.01);
     private Map<Integer, DistrictBorder> districtsIds;
 
     @Inject
@@ -65,6 +63,10 @@ public class JoinData extends AbstractDbCommand {
     private HighSchoolsDao highSchoolsDao;
     @Inject
     private PiknikDao piknikDao;
+    @Inject
+    private BusStopsDao busStopsDao;
+    @Inject
+    private LibrariesDao librariesDao;
 
     public JoinData(Application<WtlConfiguration> application) {
         super(application, "join-data", "Joins loaded data with districts");
@@ -72,7 +74,6 @@ public class JoinData extends AbstractDbCommand {
 
     @Override
     protected void run(Environment environment, Namespace namespace, WtlConfiguration configuration) throws Exception {
-        loadDistrictsGridHash();
         loadDistrictsIds();
 
 //        joinToDistrictsFrom(hospitalsDao);
@@ -88,8 +89,10 @@ public class JoinData extends AbstractDbCommand {
 //        joinToDistrictsFrom(fountainDao);
 //        joinToDistrictsFrom(wiFiDao);
 //        joinToDistrictsFrom(shopsDao);
-        joinToDistrictsFrom(piknikDao);
-        joinToDistrictsFrom(highSchoolsDao);
+//        joinToDistrictsFrom(piknikDao);
+//        joinToDistrictsFrom(highSchoolsDao);
+//        joinToDistrictsFrom(busStopsDao);
+//        joinToDistrictsFrom(librariesDao);
     }
 
     private void loadDistrictsIds() {
@@ -109,16 +112,6 @@ public class JoinData extends AbstractDbCommand {
             if (entry.getValue().contains(point)) return entry.getKey();
         }
         return null;
-    }
-
-    private void loadDistrictsGridHash() {
-        doInSession(new Block() {
-            public void apply() {
-                for (District district : districtsDao.findAll()) {
-                    districtsGeoHash.add(new DistrictBorder(district.getWktLine()), district.getId());
-                }
-            }
-        });
     }
 
     private <T extends CategoryInfo> void joinToDistrictsFrom(final CrudDao<T> dao) {

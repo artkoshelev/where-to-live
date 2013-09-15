@@ -28,6 +28,6 @@ public class CategoryResource {
     @GET
     @UnitOfWork
     public List<Category> getOperations() {
-        return categoryDao.findAll();
+        return categoryDao.getSortedByName();
     }
 }

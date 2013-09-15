@@ -7,6 +7,6 @@ import javax.persistence.Table;
  * @author Sergey Polovko
  */
 @Entity
-@Table(name = "night_schools")
+@Table(name = "nightschools")
 public class NightSchool extends CategoryInfo {
 }

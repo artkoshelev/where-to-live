@@ -5,3 +5,45 @@ body {
     padding: 40px 15px;
     text-align: center;
 }
+
+#YMapsID {
+    display: table-cell;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    width: 900px;
+    height: 600px;
+}
+
+.btn, .btn-large {
+    padding: 8px 6px 6px 7px;
+}
+
+.result {
+    width: 300px;
+    position: absolute;
+    right: 0px;
+    top: 50px;
+    z-index: 1000;
+}
+
+.result li {
+    cursor: pointer;
+}
+
+.list-group-item {
+    padding: 7px 15px;
+}
+
+.params {
+    width: 300px;
+    position: absolute;
+    left: 0px;
+    top: 50px;
+    z-index: 1000;
+}
+
+.slider {
+    width: 50px;
+    float: right;
+}

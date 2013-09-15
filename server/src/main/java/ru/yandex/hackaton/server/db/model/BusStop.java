@@ -7,6 +7,6 @@ import javax.persistence.Table;
  * @author Sergey Polovko
  */
 @Entity
-@Table(name = "childteethpolyclinic")
-public class ChildTeethPolyclinic extends CategoryInfo {
+@Table(name = "busstops")
+public class BusStop extends CategoryInfo {
 }

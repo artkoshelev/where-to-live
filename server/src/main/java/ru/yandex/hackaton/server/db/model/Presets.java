@@ -1,5 +1,7 @@
 package ru.yandex.hackaton.server.db.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -19,13 +21,13 @@ public class Presets extends BaseModel<Integer> {
     private String presetname;
 
     @Column(nullable = false)
-    private Integer child_polyclinic;
+    private Integer childpolyclinic;
 
     @Column(nullable = false)
-    private Integer child_teeth_polyclinic;
+    private Integer childteethpolyclinic;
 
     @Column(nullable = false)
-    private Integer city_polyclinic;
+    private Integer citypolyclinic;
 
     @Column(nullable = false)
     private Integer dispensary;
@@ -40,13 +42,13 @@ public class Presets extends BaseModel<Integer> {
     private Integer hospitals;
 
     @Column(nullable = false)
-    private Integer night_schools;
+    private Integer nightschools;
 
     @Column(nullable = false)
     private Integer parks;
 
     @Column(nullable = false)
-    private Integer pre_schools;
+    private Integer preschools;
 
     @Column(nullable = false)
     private Integer fountains;
@@ -58,16 +60,22 @@ public class Presets extends BaseModel<Integer> {
     private Integer shops;
 
     @Column(nullable = false)
-    private Integer high_schools;
+    private Integer highschools;
 
     @Column(nullable = false)
     private Integer piknik;
 
-    public Integer getId() {
+    @Column(nullable = false)
+    private Integer libraries;
+
+    @Column(nullable = false)
+    private Integer busstops;
+
+    public Integer getPresetid() {
         return presetid;
     }
 
-    public void setId(Integer presetid) {
+    public void setPresetid(Integer presetid) {
         this.presetid = presetid;
     }
 
@@ -79,52 +87,28 @@ public class Presets extends BaseModel<Integer> {
         this.presetname = presetname;
     }
 
-    public Integer getShops() {
-        return shops;
+    public Integer getChildpolyclinic() {
+        return childpolyclinic;
     }
 
-    public void setShops(Integer shops) {
-        this.shops = shops;
+    public void setChildpolyclinic(Integer childpolyclinic) {
+        this.childpolyclinic = childpolyclinic;
     }
 
-    public Integer getHigh_schools() {
-        return high_schools;
+    public Integer getChildteethpolyclinic() {
+        return childteethpolyclinic;
     }
 
-    public void setHigh_schools(Integer high_schools) {
-        this.high_schools = high_schools;
+    public void setChildteethpolyclinic(Integer childteethpolyclinic) {
+        this.childteethpolyclinic = childteethpolyclinic;
     }
 
-    public Integer getPiknik() {
-        return piknik;
+    public Integer getCitypolyclinic() {
+        return citypolyclinic;
     }
 
-    public void setPiknik(Integer piknik) {
-        this.piknik = piknik;
-    }
-
-    public Integer getChild_polyclinic() {
-        return child_polyclinic;
-    }
-
-    public void setChild_polyclinic(Integer child_polyclinic) {
-        this.child_polyclinic = child_polyclinic;
-    }
-
-    public Integer getChild_teeth_polyclinic() {
-        return child_teeth_polyclinic;
-    }
-
-    public void setChild_teeth_polyclinic(Integer child_teeth_polyclinic) {
-        this.child_teeth_polyclinic = child_teeth_polyclinic;
-    }
-
-    public Integer getCity_polyclinic() {
-        return city_polyclinic;
-    }
-
-    public void setCity_polyclinic(Integer city_polyclinic) {
-        this.city_polyclinic = city_polyclinic;
+    public void setCitypolyclinic(Integer citypolyclinic) {
+        this.citypolyclinic = citypolyclinic;
     }
 
     public Integer getDispensary() {
@@ -159,12 +143,12 @@ public class Presets extends BaseModel<Integer> {
         this.hospitals = hospitals;
     }
 
-    public Integer getNight_schools() {
-        return night_schools;
+    public Integer getNightschools() {
+        return nightschools;
     }
 
-    public void setNight_schools(Integer night_schools) {
-        this.night_schools = night_schools;
+    public void setNightschools(Integer nightschools) {
+        this.nightschools = nightschools;
     }
 
     public Integer getParks() {
@@ -175,12 +159,12 @@ public class Presets extends BaseModel<Integer> {
         this.parks = parks;
     }
 
-    public Integer getPre_schools() {
-        return pre_schools;
+    public Integer getPreschools() {
+        return preschools;
     }
 
-    public void setPre_schools(Integer pre_schools) {
-        this.pre_schools = pre_schools;
+    public void setPreschools(Integer preschools) {
+        this.preschools = preschools;
     }
 
     public Integer getFountains() {
@@ -197,5 +181,57 @@ public class Presets extends BaseModel<Integer> {
 
     public void setWifi(Integer wifi) {
         this.wifi = wifi;
+    }
+
+    public Integer getShops() {
+        return shops;
+    }
+
+    public void setShops(Integer shops) {
+        this.shops = shops;
+    }
+
+    public Integer getHighschools() {
+        return highschools;
+    }
+
+    public void setHighschools(Integer highschools) {
+        this.highschools = highschools;
+    }
+
+    public Integer getPiknik() {
+        return piknik;
+    }
+
+    public void setPiknik(Integer piknik) {
+        this.piknik = piknik;
+    }
+
+    public Integer getLibraries() {
+        return libraries;
+    }
+
+    public void setLibraries(Integer libraries) {
+        this.libraries = libraries;
+    }
+
+    public Integer getBusstops() {
+        return busstops;
+    }
+
+    public void setBusstops(Integer busstops) {
+        this.busstops = busstops;
+    }
+
+    @Override
+    @JsonIgnore
+    public Integer getId() {
+        return presetid;
+    }
+
+    @Override
+    @JsonIgnore
+    public void setId(Integer integer) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }
