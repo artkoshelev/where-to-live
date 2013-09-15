@@ -15,7 +15,7 @@ import java.util.List;
  */
 public abstract class BaseArrayAdapter<Item extends Object> extends ArrayAdapter<Item> {
 
-    private Activity mActivity;
+    protected Activity mActivity;
 
     public static class ViewHolder {
         private final SparseArray<View> mViews = new SparseArray<View>();

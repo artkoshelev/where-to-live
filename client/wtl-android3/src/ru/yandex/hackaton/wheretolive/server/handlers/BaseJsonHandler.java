@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,13 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.yandex.hackaton.wheretolive.server.ParseResponseException;
+import ru.yandex.hackaton.wheretolive.server.WtlClient;
 import ru.yandex.hackaton.wheretolive.server.listener.OnResponseListener;
+import ru.yandex.hackaton.wheretolive.server.requests.BaseRequest;
 import ru.yandex.hackaton.wheretolive.utils.DeviceUtil;
 
 /**
  * Created by rustamgaifullin on 9/14/13.
  */
-public abstract class BaseJsonHandler <Request, Response> extends JsonHttpResponseHandler {
+public abstract class BaseJsonHandler <Request extends BaseRequest, Response> extends JsonHttpResponseHandler {
     public static final String FIELD_ERROR_MESSAGE = "error_msg";
     public static final String FIELD_ERROR_CODE = "error_code";
     public static final String RESULT_OK = "0";
@@ -42,6 +45,36 @@ public abstract class BaseJsonHandler <Request, Response> extends JsonHttpRespon
     }
 
     protected abstract Response onOK(final JSONObject object) throws JSONException;
+
+//    @Override
+//    protected void handleSuccessMessage(final String s) {
+//        Log.d("BaseJsonHandler", MessageFormat.format("Message: {0}", s));
+//        super.handleSuccessMessage(s);
+//    }
+
+    @Override
+    public void onSuccess(JSONArray jsonArray) {
+        Log.d("BaseJsonHandler", MessageFormat.format("Received JSON object by request: {0}", request != null ? request.toString() : "{}"));
+        super.onSuccess(jsonArray);
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                if (!responseListenerList.isEmpty()) {
+                    final Response response = onOK(jsonObject);
+                    for (final OnResponseListener<Response> listener : responseListenerList) {
+                        listener.onOk(response);
+                        DeviceUtil.hideProgressDialog();
+                    }
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
 
     @Override
     public void onSuccess(final JSONObject jsonObject) {
@@ -91,4 +124,6 @@ public abstract class BaseJsonHandler <Request, Response> extends JsonHttpRespon
         responseListenerList.add(responseListener);
         return this;
     }
+
+    public abstract WtlClient.RequestType getType();
 }

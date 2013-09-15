@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import ru.yandex.hackaton.wheretolive.db.content.CategoryColumns;
+import ru.yandex.hackaton.wheretolive.db.content.DistrictColumns;
 
 /**
  * Created by rustamgaifullin on 9/14/13.
@@ -13,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public static final int VERSION = 1;
     public static final String DATABASE_NAME = "wtl_db";
     public static final String CATEGORY = "category";
-    public static final String REGION = "region";
+    public static final String DISTRICT = "district";
 
     public DatabaseHelper(Context context) {
         super (context, DATABASE_NAME, null, VERSION);
@@ -29,6 +30,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("CREATE TABLE " + CATEGORY + " (" +
                 CategoryColumns._ID + " INTEGER PRIMARY KEY," +
                 CategoryColumns.NAME + " TEXT," +
+                CategoryColumns.RATING + " INTEGER" +
+                ");");
+        db.execSQL("CREATE TABLE " + DISTRICT + " (" +
+                DistrictColumns._ID + " INTEGER PRIMARY KEY," +
+                DistrictColumns.NAME + " TEXT," +
+                DistrictColumns.BORDERS + " TEXT" +
                 ");");
     }
 

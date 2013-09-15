@@ -16,8 +16,12 @@ import ru.yandex.hackaton.wheretolive.server.handlers.BaseJsonHandler;
  * Created by rustamgaifullin on 9/14/13.
  */
 public class WtlClient {
+    public enum RequestType {
+        Get,
+        Post
+    }
 
-    private static final String BASE_URL = "http://api.twitter.com/1/";
+    private static final String BASE_URL = "http://api.where2live.ru/";
 
     private static AsyncHttpClient sClient = new AsyncHttpClient();
 
@@ -29,7 +33,16 @@ public class WtlClient {
         final String absoluteUrl = getAbsoluteUrl(handler.getUrl());
         final RequestParams params = new RequestParams("request", handler.getRequest().toString());
         Log.i("WtlClient", MessageFormat.format("URL: {0}\nRequest:{1}", absoluteUrl, params));
-        sClient.post(absoluteUrl, params, handler);
+        RequestType requestType = handler.getType();
+
+        switch (requestType) {
+            case Get:
+                sClient.get(absoluteUrl, params, handler);
+                break;
+            case Post:
+                sClient.post(absoluteUrl, params, handler);
+                break;
+        }
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {

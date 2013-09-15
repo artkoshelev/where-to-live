@@ -10,25 +10,38 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import java.util.List;
+
 import ru.yandex.hackaton.wheretolive.R;
+import ru.yandex.hackaton.wheretolive.db.utils.WtlUtils;
+import ru.yandex.hackaton.wheretolive.db.utils.WtlUtilsImpl;
+import ru.yandex.hackaton.wheretolive.server.entity.Category;
+import ru.yandex.hackaton.wheretolive.ui.adapters.CategoryAdapter;
 
 /**
  * Created with IntelliJ IDEA. User: rustamgaifullin Date: 9/14/13 Time: 6:06 PM To change this
  * template use File | Settings | File Templates.
  */
-public class ProfileActivity extends ListActivity {
+public class CategoryActivity extends ListActivity {
+
+    private CategoryAdapter mAdapter;
+
     public static void show(Context context) {
-        Intent i = new Intent(context, ProfileActivity.class);
+        Intent i = new Intent(context, CategoryActivity.class);
         context.startActivity(i);
     }
-
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.profile_activity);
+        setContentView(R.layout.category_activity);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        WtlUtilsImpl wtlUtils = WtlUtils.Factory.get(this);
+        List<Category> categoryList = wtlUtils.getCategories();
+        mAdapter = new CategoryAdapter(this, categoryList);
+        getListView().setAdapter(mAdapter);
     }
 
     @Override
@@ -38,7 +51,7 @@ public class ProfileActivity extends ListActivity {
                 onBackPressed();
                 return true;
             case R.id.action_map:
-                WebActivity.show(this);
+                MapActivity.show(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -51,5 +64,6 @@ public class ProfileActivity extends ListActivity {
         inflater.inflate(R.menu.wizard_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
 
 }

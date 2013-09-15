@@ -13,4 +13,5 @@ public class CategoryColumns implements BaseColumns {
     public static final String DEFAULT_SORT_ORDER = "_id";
 
     public static final String NAME = "name";
+    public static final String RATING = "rating";
 }

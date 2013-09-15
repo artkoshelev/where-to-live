@@ -13,7 +13,7 @@ import android.provider.BaseColumns;
 import android.text.TextUtils;
 
 import ru.yandex.hackaton.wheretolive.db.content.CategoryColumns;
-import ru.yandex.hackaton.wheretolive.db.content.RegionColumns;
+import ru.yandex.hackaton.wheretolive.db.content.DistrictColumns;
 
 /**
  * Created by rustamgaifullin on 9/14/13.
@@ -22,8 +22,8 @@ public class WtlContentProvider extends ContentProvider {
     protected static final String MAIN_URL = "ru.yandex.hackaton.wheretolive";
     protected static final int CATEGORY = 0;
     protected static final int CATEGORY_ID = 1;
-    protected static final int REGION = 2;
-    protected static final int REGION_ID = 3;
+    protected static final int DISTRICT = 2;
+    protected static final int DISTRICT_ID = 3;
     protected SQLiteDatabase db;
     DatabaseHelper helper;
     protected final static UriMatcher urlMatcher;
@@ -32,8 +32,8 @@ public class WtlContentProvider extends ContentProvider {
         urlMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         urlMatcher.addURI(MAIN_URL, "category", CATEGORY);
         urlMatcher.addURI(MAIN_URL, "category/#", CATEGORY_ID);
-        urlMatcher.addURI(MAIN_URL, "region/", REGION);
-        urlMatcher.addURI(MAIN_URL, "region/#", REGION_ID);
+        urlMatcher.addURI(MAIN_URL, "district/", DISTRICT);
+        urlMatcher.addURI(MAIN_URL, "district/#", DISTRICT_ID);
     }
 
     @Override
@@ -52,10 +52,10 @@ public class WtlContentProvider extends ContentProvider {
                 return CategoryColumns.CONTENT_TYPE;
             case CATEGORY_ID:
                 return CategoryColumns.CONTENT_ITEMTYPE;
-            case REGION:
-                return RegionColumns.CONTENT_TYPE;
-            case REGION_ID:
-                return RegionColumns.CONTENT_ITEMTYPE;
+            case DISTRICT:
+                return DistrictColumns.CONTENT_TYPE;
+            case DISTRICT_ID:
+                return DistrictColumns.CONTENT_ITEMTYPE;
             default:
                 return null;
         }
@@ -117,11 +117,11 @@ public class WtlContentProvider extends ContentProvider {
                         + (!TextUtils.isEmpty(selection) ? " AND (" + selection
                         + ')' : ""), selectionArgs);
                 break;
-            case REGION:
-                count = db.update(DatabaseHelper.REGION, values, selection,
+            case DISTRICT:
+                count = db.update(DatabaseHelper.DISTRICT, values, selection,
                         selectionArgs);
                 break;
-            case REGION_ID:
+            case DISTRICT_ID:
                 segment = uri.getPathSegments().get(1);
                 count = db.update(DatabaseHelper.CATEGORY, values, "_id="
                         + segment
@@ -143,10 +143,10 @@ public class WtlContentProvider extends ContentProvider {
                 return DatabaseHelper.CATEGORY;
             case CATEGORY_ID:
                 return DatabaseHelper.CATEGORY;
-            case REGION:
-                return DatabaseHelper.REGION;
-            case REGION_ID:
-                return DatabaseHelper.REGION;
+            case DISTRICT:
+                return DatabaseHelper.DISTRICT;
+            case DISTRICT_ID:
+                return DatabaseHelper.DISTRICT;
             default:
                 return null;
         }
@@ -156,8 +156,8 @@ public class WtlContentProvider extends ContentProvider {
         switch (matchId) {
             case CATEGORY:
                 return CategoryColumns.CONTENT_URI;
-            case REGION:
-                return RegionColumns.CONTENT_URI;
+            case DISTRICT:
+                return DistrictColumns.CONTENT_URI;
             default:
                 return null;
         }
