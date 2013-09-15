@@ -10,6 +10,8 @@ import ru.yandex.hackaton.server.resources.SearchParams;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +28,14 @@ public class DistrictsSummaryDao extends CrudDao<DistrictsSummary> {
     }
 
     public List<DistrictsSummary> find(SearchParams params) {
-        return list(toQuery(params));
+        List<DistrictsSummary> result =  list(toQuery(params));
+        BigDecimal summaryMax = result.get(0).getSumm();
+        if (summaryMax.floatValue() > 0) {
+            for(DistrictsSummary ds : result) {
+                ds.setSumm(ds.getSumm().multiply(BigDecimal.valueOf(100)).divide(summaryMax, 2, RoundingMode.HALF_UP));
+            }
+        }
+        return result;
     }
 
     private Query toQuery(SearchParams params) {
