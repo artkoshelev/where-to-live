@@ -37,7 +37,7 @@ public class DistrictsSummaryDao extends CrudDao<DistrictsSummary> {
     }
 
     public String getColumns(SearchParams params) {
-        StringBuffer result = new StringBuffer("districts_summary.districtid");
+        StringBuffer result = new StringBuffer("districts_summary.districtid, districts_summary.districtname");
         boolean hasParams = false;
         for (String param : params.getParams().keySet()) {
             if (params.getParams().get(param) != 0) {
