@@ -222,4 +222,20 @@ public class DistrictsSummary extends BaseModel<Integer> {
     public void setSize(Integer size) {
         this.size = size;
     }
+
+    public Integer getBus_stops() {
+        return bus_stops;
+    }
+
+    public void setBus_stops(Integer bus_stops) {
+        this.bus_stops = bus_stops;
+    }
+
+    public Integer getLibraries() {
+        return libraries;
+    }
+
+    public void setLibraries(Integer libraries) {
+        this.libraries = libraries;
+    }
 }
