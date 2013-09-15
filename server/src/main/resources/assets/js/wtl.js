@@ -1,5 +1,8 @@
 window.searchCategories = [];
 
+var rainbow = new Rainbow(); // by default, range is 0 to 100
+rainbow.setSpectrum('#ff2200', '#ffff00', '#00ff00');
+//rainbow.setNumberRange(-0.5, 0.5);
 
 function loadCategories() {
     $.getJSON("/api/categories", function (data) {
@@ -26,14 +29,14 @@ function loadCategories() {
     });
 }
 
-function drawDistrict(id, name, coords, color) {
+function drawDistrict(id, name, coords, rank) {
     var myPolygon = new ymaps.Polygon([
         coords
     ], {
         id: id,
-        hintContent: name
+        hintContent: name + " (" + rank + ")"
     }, {
-        fillColor: color,
+        fillColor: getColor(rank),
         strokeWidth: 1
     });
     window.myMap.geoObjects.add(myPolygon);
@@ -61,7 +64,7 @@ function drawAllDistricts(ids) {
     $.getJSON('/api/districts/' + ids.join(',') + '/polygons', function(data) {
         $.each(data, function(key, value) {
             var rank = parseInt($('#' + value.id + ' .badge').text());
-            drawDistrict(value.id, value.name, value.coords, getColor(rank))
+            drawDistrict(value.id, value.name, value.coords, rank)
         });
     });
 }
@@ -77,27 +80,20 @@ function drawSerp(data) {
         ids.push(val.id);
 
         items.push('<li id="' + val.id + '" class="list-group-item">' +
-                '<span class="badge">' + val.summ + '</span> ' + val.districtname +
-                '</li>');
+                '<span class="badge" style="background-color: ' + getColor(val.summ) + '">'
+                + val.summ + '</span> ' + val.districtname + '</li>');
     });
 
     $('<ul/>', {
         'class': 'list-group',
-        html: items.slice(0, 15).join('')
+        html: items.slice(0, 17).join('')
     }).appendTo('.result');
 
-    drawAllDistricts(ids.slice(0, 15));
+    drawAllDistricts(ids.slice(0, 17));
 }
 
 function getColor(rank) {
-    var colors = [
-        "#0000FF", "#0020FF", "#0040FF", "#0060FF", "#0080FF", "#00A0FF", "#00C0FF", "#00E0FF", "#00FFFF",
-        "#00FFE0", "#00FFC0", "#00FFA0", "#00FF80", "#00FF60", "#00FF40", "#00FF20", "#00FF00", "#20FF00",
-        "#40FF00", "#60FF00", "#80FF00", "#A0FF00", "#C0FF00", "#E0FF00", "#FFFF00", "#FFE000", "#FFC000",
-        "#FFA000", "#FF8000", "#FF6000", "#FF4000", "#FF2000", "#FF0000"
-    ];
-
-    return colors[Math.round((colors.length - 1) * rank / 100.0)];
+    return '#' + rainbow.colourAt(rank);
 }
 
 $(document).ready(function() {
@@ -131,7 +127,7 @@ $(document).ready(function() {
             var rank = parseInt($this.find('.badge').text());
 
             $.getJSON("/api/districts/" + id + "/polygon", function (data) {
-                drawDistrict(id, data.name, data.coords, getColor(rank))
+                drawDistrict(id, data.name, data.coords, rank)
             });
             drawDistrict.call(this, e);
         }
