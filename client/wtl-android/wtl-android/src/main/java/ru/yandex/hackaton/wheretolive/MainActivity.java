@@ -1,18 +1,10 @@
-package ru.yandex.hackaton.wheretolive.ui.activity;
+package ru.yandex.hackaton.wheretolive;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
-import android.widget.Toast;
-
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
-import ru.yandex.hackaton.wheretolive.R;
-import ru.yandex.hackaton.wheretolive.server.WtlClient;
 
 public class MainActivity extends Activity {
-
-    private MapView mMapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

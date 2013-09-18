@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Карта</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script src="http://api-maps.yandex.ru/2.0/?load=package.standard,package.geoObjects&lang=ru-RU"
+        type="text/javascript"></script>
+
+<script type="text/javascript">
+var rainbow = new Rainbow(); // by default, range is 0 to 100
+rainbow.setSpectrum('#ff2200', '#ffff00', '#00ff00');
+
+function Rainbow()
+{
+	var gradients = null;
+	var minNum = 0;
+	var maxNum = 100;
+	var colours = ['ff0000', 'ffff00', '00ff00', '0000ff'];
+	setColours(colours);
+
+	function setColours (spectrum)
+	{
+		if (spectrum.length < 2) {
+			throw new Error('Rainbow must have two or more colours.');
+		} else {
+			var increment = (maxNum - minNum)/(spectrum.length - 1);
+			var firstGradient = new ColourGradient();
+			firstGradient.setGradient(spectrum[0], spectrum[1]);
+			firstGradient.setNumberRange(minNum, minNum + increment);
+			gradients = [ firstGradient ];
+
+			for (var i = 1; i < spectrum.length - 1; i++) {
+				var colourGradient = new ColourGradient();
+				colourGradient.setGradient(spectrum[i], spectrum[i + 1]);
+				colourGradient.setNumberRange(minNum + increment * i, minNum + increment * (i + 1));
+				gradients[i] = colourGradient;
+			}
+
+			colours = spectrum;
+			return this;
+		}
+	}
+
+	this.setColors = this.setColours;
+
+	this.setSpectrum = function ()
+	{
+		setColours(arguments);
+		return this;
+	}
+
+	this.setSpectrumByArray = function (array)
+	{
+		setColours(array);
+        return this;
+	}
+
+	this.colourAt = function (number)
+	{
+		if (isNaN(number)) {
+			throw new TypeError(number + ' is not a number');
+		} else if (gradients.length === 1) {
+			return gradients[0].colourAt(number);
+		} else {
+			var segment = (maxNum - minNum)/(gradients.length);
+			var index = Math.min(Math.floor((Math.max(number, minNum) - minNum)/segment), gradients.length - 1);
+			return gradients[index].colourAt(number);
+		}
+	}
+
+	this.colorAt = this.colourAt;
+
+	this.setNumberRange = function (minNumber, maxNumber)
+	{
+		if (maxNumber > minNumber) {
+			minNum = minNumber;
+			maxNum = maxNumber;
+			setColours(colours);
+		} else {
+			throw new RangeError('maxNumber (' + maxNumber + ') is not greater than minNumber (' + minNumber + ')');
+		}
+		return this;
+	}
+}
+
+function ColourGradient()
+{
+	var startColour = 'ff0000';
+	var endColour = '0000ff';
+	var minNum = 0;
+	var maxNum = 100;
+
+	this.setGradient = function (colourStart, colourEnd)
+	{
+		startColour = getHexColour(colourStart);
+		endColour = getHexColour(colourEnd);
+	}
+
+	this.setNumberRange = function (minNumber, maxNumber)
+	{
+		if (maxNumber > minNumber) {
+			minNum = minNumber;
+			maxNum = maxNumber;
+		} else {
+			throw new RangeError('maxNumber (' + maxNumber + ') is not greater than minNumber (' + minNumber + ')');
+		}
+	}
+
+	this.colourAt = function (number)
+	{
+		return calcHex(number, startColour.substring(0,2), endColour.substring(0,2))
+			+ calcHex(number, startColour.substring(2,4), endColour.substring(2,4))
+			+ calcHex(number, startColour.substring(4,6), endColour.substring(4,6));
+	}
+
+	function calcHex(number, channelStart_Base16, channelEnd_Base16)
+	{
+		var num = number;
+		if (num < minNum) {
+			num = minNum;
+		}
+		if (num > maxNum) {
+			num = maxNum;
+		}
+		var numRange = maxNum - minNum;
+		var cStart_Base10 = parseInt(channelStart_Base16, 16);
+		var cEnd_Base10 = parseInt(channelEnd_Base16, 16);
+		var cPerUnit = (cEnd_Base10 - cStart_Base10)/numRange;
+		var c_Base10 = Math.round(cPerUnit * (num - minNum) + cStart_Base10);
+		return formatHex(c_Base10.toString(16));
+	}
+
+	formatHex = function (hex)
+	{
+		if (hex.length === 1) {
+			return '0' + hex;
+		} else {
+			return hex;
+		}
+	}
+
+	function isHexColour(string)
+	{
+		var regex = /^#?[0-9a-fA-F]{6}$/i;
+		return regex.test(string);
+	}
+
+	function getHexColour(string)
+	{
+		if (isHexColour(string)) {
+			return string.substring(string.length - 6, string.length);
+		} else {
+			var colourNames =
+			[
+				['red', 'ff0000'],
+				['lime', '00ff00'],
+				['blue', '0000ff'],
+				['yellow', 'ffff00'],
+				['orange', 'ff8000'],
+				['aqua', '00ffff'],
+				['fuchsia', 'ff00ff'],
+				['white', 'ffffff'],
+				['black', '000000'],
+				['gray', '808080'],
+				['grey', '808080'],
+				['silver', 'c0c0c0'],
+				['maroon', '800000'],
+				['olive', '808000'],
+				['green', '008000'],
+				['teal', '008080'],
+				['navy', '000080'],
+				['purple', '800080']
+			];
+			for (var i = 0; i < colourNames.length; i++) {
+				if (string.toLowerCase() === colourNames[i][0]) {
+					return colourNames[i][1];
+				}
+			}
+			throw new Error(string + ' is not a valid colour.');
+		}
+	}
+}
+
+ymaps.ready(init);
+
+function getColor(rank) {
+    return '#' + rainbow.colourAt(rank);
+}
+
+function showInfo(id) {
+    Android.showInfo(id);
+}
+
+function init() {
+    var myMap = new ymaps.Map("map", {
+        center: [55.73, 37.75],
+        zoom: 10
+    });
+
+    myMap.controls
+        .add('zoomControl', { left: 5, top: 5 })
+
+    var myPolygon = new ymaps.Polygon([
+[
+[55.871285, 37.412903],
+[55.874374, 37.405875],
+[55.876774, 37.392035],
+[55.877751, 37.382315],
+[55.877975, 37.382250],
+[55.878391, 37.381060],
+[55.879024, 37.380748],
+[55.879567, 37.380276],
+[55.879802, 37.379826],
+[55.880375, 37.378206],
+[55.880948, 37.377004],
+[55.881322, 37.375770],
+[55.881225, 37.374890],
+[55.881394, 37.374107],
+[55.881436, 37.373249],
+[55.881581, 37.372895],
+[55.881750, 37.372659],
+[55.881919, 37.372552],
+[55.882250, 37.372401],
+[55.883517, 37.371253],
+[55.883987, 37.371232],
+[55.884699, 37.372015],
+[55.885049, 37.372305],
+[55.885193, 37.372605],
+[55.885338, 37.372981],
+[55.885718, 37.373292],
+[55.886122, 37.374107],
+[55.886472, 37.374515],
+[55.886598, 37.374569],
+[55.886906, 37.374912],
+[55.887129, 37.374848],
+[55.887328, 37.374526],
+[55.887436, 37.373839],
+[55.887442, 37.373313],
+[55.887623, 37.372595],
+[55.888094, 37.372519],
+[55.888371, 37.372798],
+[55.889299, 37.372702],
+[55.889999, 37.373517],
+[55.890330, 37.373442],
+[55.890897, 37.372991],
+[55.891229, 37.372959],
+[55.891361, 37.373249],
+[55.891579, 37.374987],
+[55.891802, 37.375899],
+[55.892398, 37.377347],
+[55.892923, 37.377465],
+[55.893634, 37.376350],
+[55.894780, 37.374944],
+[55.895045, 37.374322],
+[55.895129, 37.373571],
+[55.894949, 37.372294],
+[55.895075, 37.371650],
+[55.895045, 37.371135],
+[55.894822, 37.370599],
+[55.894804, 37.370009],
+[55.894509, 37.369451],
+[55.894454, 37.368829],
+[55.894340, 37.368603],
+[55.894316, 37.367895],
+[55.894376, 37.367187],
+[55.894539, 37.366994],
+[55.894484, 37.366554],
+[55.894804, 37.365653],
+[55.895003, 37.365535],
+[55.895636, 37.365803],
+[55.896124, 37.365760],
+[55.896438, 37.365524],
+[55.896691, 37.365653],
+[55.896805, 37.366822],
+[55.896944, 37.367176],
+[55.897137, 37.367509],
+[55.897396, 37.367670],
+[55.897649, 37.367445],
+[55.897951, 37.367734],
+[55.898095, 37.367724],
+[55.898638, 37.366908],
+[55.898933, 37.366061],
+[55.899699, 37.365503],
+[55.900030, 37.365041],
+[55.900271, 37.364076],
+[55.900368, 37.362692],
+[55.900615, 37.362300],
+[55.900910, 37.361973],
+[55.901441, 37.361855],
+[55.901676, 37.361919],
+[55.901519, 37.362123],
+[55.901447, 37.362767],
+[55.902128, 37.363518],
+[55.902393, 37.364247],
+[55.902996, 37.367101],
+[55.903231, 37.368421],
+[55.903430, 37.370341],
+[55.905190, 37.369022],
+[55.905178, 37.368314],
+[55.906757, 37.366211],
+[55.908372, 37.369944],
+[55.910041, 37.373818],
+[55.911524, 37.377358],
+[55.911560, 37.377991],
+[55.911439, 37.381027],
+[55.911945, 37.380995],
+[55.911982, 37.381199],
+[55.912602, 37.381124],
+[55.912608, 37.380609],
+[55.913542, 37.380351],
+[55.913699, 37.380716],
+[55.913964, 37.382218],
+[55.913289, 37.382154],
+[55.912126, 37.382465],
+[55.911349, 37.382529],
+[55.911337, 37.383205],
+[55.911367, 37.383892],
+[55.911469, 37.384911],
+[55.911674, 37.387100],
+[55.911789, 37.387529],
+[55.912849, 37.390319],
+[55.909234, 37.390168],
+[55.906847, 37.389997],
+[55.905497, 37.389889],
+[55.903532, 37.390211],
+[55.903014, 37.390683],
+[55.902339, 37.391670],
+[55.902038, 37.392829],
+[55.901531, 37.396584],
+[55.901182, 37.397636],
+[55.900579, 37.398515],
+[55.899024, 37.399610],
+[55.897179, 37.400629],
+[55.895334, 37.401734],
+[55.892272, 37.404051],
+[55.891175, 37.404438],
+[55.890523, 37.404395],
+[55.889119, 37.404105],
+[55.887617, 37.404073],
+[55.886628, 37.405210],
+[55.886300, 37.405693],
+[55.885609, 37.407313],
+[55.885193, 37.408740],
+[55.884765, 37.410049],
+[55.883613, 37.410006],
+[55.881328, 37.410038],
+[55.880073, 37.416561],
+[55.879760, 37.415639],
+[55.878976, 37.416325],
+[55.879084, 37.416776],
+[55.878451, 37.417538],
+[55.878367, 37.421282],
+[55.877950, 37.421368],
+[55.877739, 37.423610],
+[55.878107, 37.423889],
+[55.877637, 37.425370],
+[55.877444, 37.426625],
+[55.877552, 37.427473],
+[55.877981, 37.429790],
+[55.877830, 37.430605],
+[55.877824, 37.431292],
+[55.877908, 37.431560],
+[55.877679, 37.431861],
+[55.876587, 37.428363],
+[55.874736, 37.422451],
+[55.873101, 37.417334],
+[55.871883, 37.414233],
+[55.871285, 37.412903]
+
+]
+], {
+        balloonContent: '<p>"Куркино"</p>'+
+'<button onclick="showInfo(49)">Подробнее</button>'
+    }, {
+        fillColor: getColor(100),
+        strokeWidth: 1
+    });
+    myMap.geoObjects.add(myPolygon); 
+
+}
+
+
+    </script>
+</head>
+
+<body>
+<div id="map" style="width:400; height:440px"></div>
+</body>
+
+</html>

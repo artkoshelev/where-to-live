@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Образование"
+        android:key="pref_key_storage_school">
+        <SwitchPreference
+            android:disableDependentsState="true"
+            android:summary="Начальные"
+            android:key="pref_key_storage_school_primary" />
+        <SwitchPreference
+            android:disableDependentsState="true"
+            android:summary="Вечерние"
+            android:key="pref_key_storage_school_night" />
+        <SwitchPreference
+            android:disableDependentsState="true"
+            android:summary="Детские сады"
+            android:key="pref_key_storage_preschool" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Здравоохранение"
+        android:key="pref_key_storage_health">
+        <SwitchPreference
+            android:disableDependentsState="true"
+            android:summary="Аптеки"
+            android:key="pref_key_storage_health_drugs" />
+        <SwitchPreference
+            android:disableDependentsState="true"
+            android:summary="Больницы"
+            android:key="pref_key_storage_health_hospitals" />
+        <SwitchPreference
+            android:disableDependentsState="true"
+            android:summary="Городские поликлиники"
+            android:key="pref_key_storage_health_city_polyclinic" />
+        <SwitchPreference
+            android:disableDependentsState="true"
+            android:summary="Детские поликлиники"
+            android:key="pref_key_storage_health_child_polyclinic" />
+        <SwitchPreference
+            android:disableDependentsState="true"
+            android:summary="Детские стоматологические поликлиники"
+            android:key="pref_key_storage_health_child_teeth_polyclinic" />
+        <SwitchPreference
+            android:disableDependentsState="true"
+            android:summary="Диспансеры"
+            android:key="pref_key_storage_health_dispensary" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Отдых"
+        android:key="pref_key_storage_health">
+        <SwitchPreference
+            android:disableDependentsState="true"
+            android:summary="Парки"
+            android:key="pref_key_storage_parks" />
+    </PreferenceCategory>
+</PreferenceScreen>
