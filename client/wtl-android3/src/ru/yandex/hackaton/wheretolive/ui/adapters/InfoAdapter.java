@@ -1,24 +1,20 @@
 package ru.yandex.hackaton.wheretolive.ui.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import ru.yandex.hackaton.wheretolive.R;
 import ru.yandex.hackaton.wheretolive.db.utils.WtlUtils;
 import ru.yandex.hackaton.wheretolive.server.entity.Category;
-import ru.yandex.hackaton.wheretolive.server.responses.RatingResponse;
 
 /**
  * Created by rustamgaifullin on 9/15/13.
@@ -58,7 +54,7 @@ public class InfoAdapter extends BaseAdapter {
 
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            layout = (RelativeLayout) mInflater.inflate(R.layout.category_list_item, null);
+            layout = (RelativeLayout) mInflater.inflate(R.layout.search_list_item, null);
         } else {
             layout = (RelativeLayout) convertView;
         }

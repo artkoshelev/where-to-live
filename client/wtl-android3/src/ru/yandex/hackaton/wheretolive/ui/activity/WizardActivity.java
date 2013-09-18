@@ -2,9 +2,6 @@ package ru.yandex.hackaton.wheretolive.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -70,6 +67,6 @@ public class WizardActivity extends Activity {
     }
 
     public void onParametersClick(View v) {
-        CategoryActivity.show(this);
+        SearchActivity.show(this);
     }
 }

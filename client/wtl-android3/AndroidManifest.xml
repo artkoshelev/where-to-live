@@ -6,10 +6,13 @@
     <uses-sdk
             android:minSdkVersion="7"
             android:targetSdkVersion="16" />
-    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
+    <application android:label="@string/app_name"
+                 android:icon="@drawable/ic_launcher"
+                 android:theme="@style/AppTheme">
         <activity
             android:name=".ui.activity.WizardActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -17,31 +20,38 @@
         </activity>
         <activity
             android:name=".ui.activity.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ui.activity.ProfileActivity"
-            android:label="Профили" >
+            android:label="Профили"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".ui.activity.CategoryActivity"
-            android:label="Персональный поиск" >
+            android:name=".ui.activity.SearchActivity"
+            android:label="Персональный поиск"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ui.activity.MapActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ui.activity.WebActivity"
-            android:label="Карта" >
+            android:label="Карта"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ui.activity.InfoActivity"
-            android:label="Подробно" >
+            android:label="Подробно"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ui.activity.RatingActivity"
-            android:label="Рейтинг районов" >
+            android:label="Рейтинг районов"
+            android:screenOrientation="portrait">
         </activity>
 
         <provider android:name=".db.WtlContentProvider" android:authorities="ru.yandex.hackaton.wheretolive"/>

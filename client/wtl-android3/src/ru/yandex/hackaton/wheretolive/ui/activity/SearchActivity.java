@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.List;
 
@@ -22,19 +23,19 @@ import ru.yandex.hackaton.wheretolive.ui.adapters.CategoryAdapter;
  * Created with IntelliJ IDEA. User: rustamgaifullin Date: 9/14/13 Time: 6:06 PM To change this
  * template use File | Settings | File Templates.
  */
-public class CategoryActivity extends ListActivity {
+public class SearchActivity extends ListActivity {
 
     private CategoryAdapter mAdapter;
 
     public static void show(Context context) {
-        Intent i = new Intent(context, CategoryActivity.class);
+        Intent i = new Intent(context, SearchActivity.class);
         context.startActivity(i);
     }
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.category_activity);
+        setContentView(R.layout.search_activity);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -51,7 +52,7 @@ public class CategoryActivity extends ListActivity {
                 onBackPressed();
                 return true;
             case R.id.action_search:
-                RatingActivity.show(this);
+                search();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -65,5 +66,12 @@ public class CategoryActivity extends ListActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    public void onSearchClick(View view) {
+        search();
+    }
 
+
+    private void search() {
+        RatingActivity.show(this);
+    }
 }

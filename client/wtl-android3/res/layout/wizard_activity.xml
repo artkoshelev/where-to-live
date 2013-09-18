@@ -11,19 +11,21 @@
         android:layout_height="wrap_content"
         android:text="Расширенный поиск"
         android:id="@+id/parametrsButton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:onClick="onParametersClick"
-        android:textColor="#333333" />
+        android:textColor="#333333"
+        android:layout_marginBottom="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Поиск по профилю"
         android:id="@+id/profileButton"
-        android:layout_above="@+id/parametrsButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="11dp"
+        android:layout_marginBottom="15dp"
         android:onClick="onProfileClick"
-        android:textColor="#333333" />
+        android:textColor="#333333"
+        android:layout_above="@+id/parametrsButton"
+        android:layout_alignRight="@+id/parametrsButton"
+        android:layout_alignLeft="@+id/parametrsButton" />
 </RelativeLayout>

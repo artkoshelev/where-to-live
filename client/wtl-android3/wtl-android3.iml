@@ -16,7 +16,6 @@
     <orderEntry type="jdk" jdkName="Android 4.2.2 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="android-async-http-1.4.0" level="project" />
-    <orderEntry type="module" module-name="yandexmapkit-library" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>

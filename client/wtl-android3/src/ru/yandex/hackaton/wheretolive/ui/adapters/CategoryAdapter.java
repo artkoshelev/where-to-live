@@ -1,14 +1,9 @@
 package ru.yandex.hackaton.wheretolive.ui.adapters;
 
 import android.app.Activity;
-import android.content.Context;
-import android.database.Cursor;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CursorAdapter;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -55,6 +50,6 @@ public class CategoryAdapter extends BaseArrayAdapter<Category> {
 
     @Override
     protected int getLayoutId(int position) {
-        return R.layout.category_list_item;
+        return R.layout.search_list_item;
     }
 }
